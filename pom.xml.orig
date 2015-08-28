@@ -4,7 +4,11 @@
 
 	<groupId>br.unb.goalp</groupId>
 	<artifactId>goalp-parent</artifactId>
+<<<<<<< HEAD
 	<version>0.0.3-SNAPSHOT</version>
+=======
+	<version>0.0.2</version>
+>>>>>>> master
 
 	<modules>
 		<module>goalp-core</module>
@@ -18,7 +22,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bintray.subject>gabrielsr</bintray.subject>
 		<bintray.repo>goalp</bintray.repo>
-		<bintray.package>goalp</bintray.package>
 	</properties>
 
 	<scm>
@@ -33,27 +36,25 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
 			</plugin>
 
+
 			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4.1</version>
-				<configuration>
-					<useReleaseProfile>false</useReleaseProfile>
-					<releaseProfiles>release</releaseProfiles>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-				</configuration>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m5.1</version>
 			</plugin>
 		</plugins>
 	</build>
 	<distributionManagement>
 		<repository>
 			<id>bintray</id>
-			<url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}</url>
+			<url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${package}</url>
 		</repository>
 	</distributionManagement>
 
