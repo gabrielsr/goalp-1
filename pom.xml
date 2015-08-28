@@ -3,7 +3,7 @@
 
 	<groupId>br.unb.goalp</groupId>
 	<artifactId>goalp-parent</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-SNAPSHOT</version>
 
 	<modules>
 		<module>goalp-core</module>
