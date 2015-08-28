@@ -35,4 +35,12 @@ public class AppTest
     {
         assertTrue( true );
     }
+    
+    /**
+     * Test a Sum :-)
+     */
+    public void testSum()
+    {
+        assertEquals(2, 1+1);
+    }
 }
