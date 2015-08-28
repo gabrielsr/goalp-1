@@ -1,14 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.unb.goalp</groupId>
 	<artifactId>goalp-parent</artifactId>
-<<<<<<< HEAD
-	<version>0.0.3-SNAPSHOT</version>
-=======
-	<version>0.0.2</version>
->>>>>>> master
+	<version>0.0.3</version>
 
 	<modules>
 		<module>goalp-core</module>
@@ -22,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bintray.subject>gabrielsr</bintray.subject>
 		<bintray.repo>goalp</bintray.repo>
+		<bintray.package>goalp</bintray.package>
 	</properties>
 
 	<scm>
@@ -43,18 +39,23 @@
 				</configuration>
 			</plugin>
 
-
 			<plugin>
 				<groupId>external.atlassian.jgitflow</groupId>
 				<artifactId>jgitflow-maven-plugin</artifactId>
 				<version>1.0-m5.1</version>
+<<<<<<< HEAD
+=======
+				<configuration>
+					<!-- see goals wiki page for configuration options -->
+				</configuration>
+>>>>>>> refs/heads/master
 			</plugin>
 		</plugins>
 	</build>
 	<distributionManagement>
 		<repository>
 			<id>bintray</id>
-			<url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${package}</url>
+			<url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}</url>
 		</repository>
 	</distributionManagement>
 
