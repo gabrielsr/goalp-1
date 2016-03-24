@@ -9,6 +9,11 @@ public class DeploymentPlan {
 	protected List<Artifact> selectedArtifacts;
 
 	protected Status status;
+	
+	/**
+	 * Time of clock took in planning in milisecons.
+	 */
+	protected Long planDuration;
 
 	public enum Status {
 		SUCCESS, FAILURE

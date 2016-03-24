@@ -1,5 +1,6 @@
 package goalp.systems;
 
+import java.util.Date;
 import java.util.List;
 
 import goalp.model.Artifact;
@@ -26,6 +27,19 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 
 	@Override
 	public DeploymentPlan doPlan(DeploymentRequest request, Agent agent, List<Artifact> knownArtifacts)
+			throws PlanSelectionException {
+	
+		Date begin,end;
+		
+		begin = new Date();
+		DeploymentPlan plan = makePlan(request, agent,knownArtifacts);
+		end = new Date();
+		plan.planDuration = begin.getTime() - end.getTime();
+		
+		return plan;
+	}
+	
+	public DeploymentPlan makePlan(DeploymentRequest request, Agent agent, List<Artifact> knownArtifacts)
 			throws PlanSelectionException {
 		DeploymentPlan plan = new DeploymentPlan();
 		plan.setSelectedArtifacts(knownArtifacts);
