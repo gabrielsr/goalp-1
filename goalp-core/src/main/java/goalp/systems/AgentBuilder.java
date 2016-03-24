@@ -1,4 +1,4 @@
-package goalp.model;
+package goalp.systems;
 
 import goalp.model.resources.Display;
 
@@ -24,5 +24,10 @@ public class AgentBuilder {
 	public AgentBuilder addResource(Display display) {
 		// TODO Auto-generated method stub
 		return this;
+	}
+
+	public AgentBuilder addContext(String context) {
+		this.agent.getComputingEnvironment().add(context);
+		return null;
 	}
 }

@@ -2,9 +2,9 @@ package goalp.model;
 
 public class ArtifactBuilder {
 	
-	private Artifact artifact;
+	protected Artifact artifact;
 	
-	private ArtifactBuilder(){
+	protected ArtifactBuilder(){
 		this.artifact = new Artifact();
 	}
 	
@@ -35,6 +35,11 @@ public class ArtifactBuilder {
 	
 	public ArtifactBuilder dependsOn(IDependency dependency){
 		this.artifact.getDependencies().add(dependency);
+		return this;
+	}
+	
+	public ArtifactBuilder requires(String requirement){
+		this.artifact.contextRequirement.add(requirement);
 		return this;
 	}
 }
