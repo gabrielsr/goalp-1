@@ -1,12 +1,10 @@
 package goalp.model;
 
-import java.util.List;
-
 public class ArtifactBuilder {
 	
-	private Artifact artifact;
+	protected Artifact artifact;
 	
-	private ArtifactBuilder(){
+	protected ArtifactBuilder(){
 		this.artifact = new Artifact();
 	}
 	
@@ -14,14 +12,34 @@ public class ArtifactBuilder {
 		return new ArtifactBuilder();
 	}
 	
-	public ArtifactBuilder plans(List<Plan> plans){
-		this.artifact.plans = plans;
-		return this;
-	}
-	
 	public Artifact build(){
 		Artifact built = this.artifact;
 		this.artifact = null;
 		return built;
+	}
+
+	public ArtifactBuilder identification(String identification) {
+		this.artifact.identification = identification;
+		return this;
+	}
+
+	public ArtifactBuilder providesGoal(String goalIdentification){
+		this.artifact.getDependencies().add((new Goal(goalIdentification)));
+		return this;
+	}
+	
+	public ArtifactBuilder provides(IDependency dependency){
+		this.artifact.getDependencies().add(dependency);
+		return this;
+	}
+	
+	public ArtifactBuilder dependsOn(IDependency dependency){
+		this.artifact.getDependencies().add(dependency);
+		return this;
+	}
+	
+	public ArtifactBuilder requires(String requirement){
+		this.artifact.contextRequirement.add(requirement);
+		return this;
 	}
 }
