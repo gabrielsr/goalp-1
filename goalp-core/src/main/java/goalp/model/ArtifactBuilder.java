@@ -24,7 +24,7 @@ public class ArtifactBuilder {
 	}
 
 	public ArtifactBuilder providesGoal(String goalIdentification){
-		this.artifact.getDependencies().add((new Goal(goalIdentification)));
+		this.artifact.getProvide().add((new Goal(goalIdentification)));
 		return this;
 	}
 	
@@ -39,7 +39,7 @@ public class ArtifactBuilder {
 	}
 	
 	public ArtifactBuilder requires(String requirement){
-		this.artifact.contextRequirement.add(requirement);
+		this.artifact.getContextRequirement().add(requirement);
 		return this;
 	}
 }

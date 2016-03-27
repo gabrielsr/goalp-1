@@ -4,24 +4,24 @@ import goalp.model.Artifact;
 
 public class RepositoryBuilder {
 
-	private Repository repository;
+	private IRepository repository;
 
 	private RepositoryBuilder() {
-		this.repository = new Repository();
+		this.repository = new SimpleListRepository();
 	}
 
 	public static RepositoryBuilder create() {
 		return new RepositoryBuilder();
 	}
 
-	public Repository build() {
-		Repository built = this.repository;
+	public IRepository build() {
+		IRepository built = this.repository;
 		this.repository = null;
 		return built;
 	}
 
 	public RepositoryBuilder addArtifact(Artifact artifact) {
-		this.repository.getKnownArtifacts().add(artifact);
+		this.repository.addArtifact(artifact);
 		return this;
 	}
 }

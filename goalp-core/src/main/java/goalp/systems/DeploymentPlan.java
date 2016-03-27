@@ -1,5 +1,6 @@
 package goalp.systems;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import goalp.model.Artifact;
@@ -20,6 +21,9 @@ public class DeploymentPlan {
 	}
 
 	public List<Artifact> getSelectedArtifacts() {
+		if(selectedArtifacts == null){
+			selectedArtifacts = new ArrayList<>();
+		}
 		return selectedArtifacts;
 	}
 

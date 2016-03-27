@@ -8,4 +8,9 @@ public class Goal implements IDependency {
 		this.identification = identification;
 	}
 	
+	@Override
+	public boolean equals(Object goal){
+		return (goal instanceof Goal
+				&& ((Goal) goal).identification.equals(identification)); 
+	}
 }

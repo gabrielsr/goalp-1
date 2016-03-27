@@ -13,13 +13,14 @@ public class Artifact implements IDependency, IDependant{
 	
 	protected List<String> contextRequirement;
 
+
 	public String getIdentification() {
 		return this.identification;
 	}
 	
 	public List<Goal> getProvide() {
 		if(this.provide == null){
-			this.dependencies = new ArrayList<>();
+			this.provide = new ArrayList<>();
 		}
 		return provide;
 	}
@@ -37,6 +38,26 @@ public class Artifact implements IDependency, IDependant{
 
 	public void setDependencies(List<IDependency> dependencies) {
 		this.dependencies = dependencies;
+	}
+
+	public List<String> getContextRequirement() {
+		if(contextRequirement == null){
+			contextRequirement = new ArrayList<>();
+		}
+		return contextRequirement;
+	}
+
+	public void setContextRequirement(List<String> contextRequirement) {
+		this.contextRequirement = contextRequirement;
+	}
+	
+	public boolean isProvider(Goal goal) {
+		for(Goal providedGoal: this.getProvide()){
+			if(goal.equals(providedGoal)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

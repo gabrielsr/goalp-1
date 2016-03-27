@@ -28,6 +28,6 @@ public class AgentBuilder {
 
 	public AgentBuilder addContext(String context) {
 		this.agent.getComputingEnvironment().add(context);
-		return null;
+		return this;
 	}
 }

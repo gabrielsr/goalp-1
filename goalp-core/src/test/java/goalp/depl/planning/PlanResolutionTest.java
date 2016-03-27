@@ -1,21 +1,19 @@
 package goalp.depl.planning;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import goalp.model.Artifact;
 import goalp.model.ArtifactBuilder;
 import goalp.model.DeploymentRequest;
 import goalp.model.DeploymentRequestBuilder;
 import goalp.systems.Agent;
 import goalp.systems.AgentBuilder;
 import goalp.systems.DeploymentPlan;
+import goalp.systems.DeploymentPlan.Status;
 import goalp.systems.IDeploymentPlanner;
+import goalp.systems.IRepository;
 import goalp.systems.PlanSelectionException;
-import goalp.systems.Repository;
 import goalp.systems.RepositoryBuilder;
 import goalp.systems.SimpleDeploymentPlanner;
 
@@ -23,7 +21,9 @@ public class PlanResolutionTest {
 	
 	IDeploymentPlanner planner;
 	
-	Repository repo;
+	IRepository repo;
+	
+	Agent agent;
 	
 	@Before
 	public void setUp() {
@@ -33,13 +33,19 @@ public class PlanResolutionTest {
 				ArtifactBuilder.create()
 				.identification("br.unb:greater:0.0.1")
 				.providesGoal("br.unb.greet")
+				.requires("display_cability")
 				.build())
 			.addArtifact(
 				ArtifactBuilder.create()
 				.identification("br.unb:alarm:0.0.1")
 				.providesGoal("br.unb.alarm")
+				.requires("sound_capability")
 				.build())
 			.build();
+		
+		agent = AgentBuilder.create()
+				.addContext("display_cability")
+				.build();
 		
 		planner = new SimpleDeploymentPlanner(repo);
 	}
@@ -51,9 +57,10 @@ public class PlanResolutionTest {
 				.build();
 		
 
-		List<Artifact> selected = planner.doPlan(request, null).getSelectedArtifacts();
-		Assert.assertEquals(selected.size(), 1);
-		Assert.assertEquals(selected.get(0).getIdentification(), "br.unb:greater:0.0.1");
+		DeploymentPlan plan = planner.doPlan(request, agent);
+		Assert.assertEquals(Status.SUCCESS, plan.getStatus());
+		Assert.assertEquals(1, plan.getSelectedArtifacts().size());
+		Assert.assertEquals("br.unb:greater:0.0.1", plan.getSelectedArtifacts().get(0).getIdentification());
 	}
 	
 	@Test
@@ -67,7 +74,7 @@ public class PlanResolutionTest {
 				.build();
 		
 		DeploymentPlan plan = planner.doPlan(request, agent);
-		Assert.assertEquals(plan.getStatus(), DeploymentPlan.Status.FAILURE);
+		Assert.assertEquals(DeploymentPlan.Status.FAILURE, plan.getStatus());
 	}
 	
 	@Test
