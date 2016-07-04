@@ -9,8 +9,7 @@ import goalp.model.DeploymentRequest;
 import goalp.model.DeploymentRequestBuilder;
 import goalp.systems.Agent;
 import goalp.systems.AgentBuilder;
-import goalp.systems.DeploymentPlan;
-import goalp.systems.DeploymentPlan.Status;
+import goalp.systems.DeploymentPlanningResult;
 import goalp.systems.IDeploymentPlanner;
 import goalp.systems.IRepository;
 import goalp.systems.PlanSelectionException;
@@ -32,22 +31,40 @@ public class PlanResolutionTest {
 			.addArtifact(
 				ArtifactBuilder.create()
 				.identification("br.unb:greater:0.0.1")
-				.providesGoal("br.unb.greet")
-				.requires("display_cability")
+				.provides("br.unb.greet")
+				.condition("display_capability")
 				.build())
 			.addArtifact(
 				ArtifactBuilder.create()
 				.identification("br.unb:alarm:0.0.1")
-				.providesGoal("br.unb.alarm")
-				.requires("sound_capability")
+				.provides("br.unb.alarm")
+				.condition("sound_capability")
+				.build())
+			.addArtifact(
+				ArtifactBuilder.create()
+				.identification("br.unb:display_my_position:0.0.1")
+				.provides("br.unb.display_my_position")
+				.condition("display_capability")
+				.dependsOn("br.unb:getPositionByGPS:0.0.1")
+				.dependsOn("br.unb:mapView:0.0.1")
+				.build())
+			.addArtifact(
+				ArtifactBuilder.create()
+				.identification("br.unb:getPositionByGPS:0.0.1")
+				.condition("gps_capability")
+				.build())
+			.addArtifact(
+				ArtifactBuilder.create()
+				.identification("br.unb:mapView:0.0.1")
+				.condition("display_capability")
 				.build())
 			.build();
 		
-		agent = AgentBuilder.create()
-				.addContext("display_cability")
-				.build();
-		
 		planner = new SimpleDeploymentPlanner(repo);
+		
+		agent = AgentBuilder.create()
+				.addContext("display_capability")
+				.build();
 	}
 	
 	@Test
@@ -57,10 +74,10 @@ public class PlanResolutionTest {
 				.build();
 		
 
-		DeploymentPlan plan = planner.doPlan(request, agent);
-		Assert.assertEquals(Status.SUCCESS, plan.getStatus());
-		Assert.assertEquals(1, plan.getSelectedArtifacts().size());
-		Assert.assertEquals("br.unb:greater:0.0.1", plan.getSelectedArtifacts().get(0).getIdentification());
+		DeploymentPlanningResult result = planner.doPlan(request, agent);
+		Assert.assertTrue(result.isSuccessfull());
+		Assert.assertEquals(1, result.getPlanSize());
+		Assert.assertTrue(result.isPresentInThePlan("br.unb:greater:0.0.1"));
 	}
 	
 	@Test
@@ -73,16 +90,56 @@ public class PlanResolutionTest {
 				.addContext("display")
 				.build();
 		
-		DeploymentPlan plan = planner.doPlan(request, agent);
-		Assert.assertEquals(DeploymentPlan.Status.FAILURE, plan.getStatus());
+		DeploymentPlanningResult result = planner.doPlan(request, agent);
+		Assert.assertFalse(result.isSuccessfull());
 	}
 	
 	@Test
 	public void artifactSelectionWithDependencieTest() throws PlanSelectionException {
+		DeploymentRequest request = DeploymentRequestBuilder.create()
+			.addGoal("br.unb.display_my_position")
+			.build();
+		
+		Agent agent = AgentBuilder.create()
+			.addContext("display_capability")
+			.addContext("gps_capability")
+			.build();
+		
+		DeploymentPlanningResult result = planner.doPlan(request, agent);
+		Assert.assertTrue(result.isSuccessfull());
+		Assert.assertEquals(3, result.getPlanSize());
 	}
 	
 	@Test
 	public void artifactSelectionWithCyclicDependencieTest() throws PlanSelectionException {
+	
+		IRepository repoWithCycle = RepositoryBuilder.create()
+				.addArtifact(
+					ArtifactBuilder.create()
+					.identification("br.unb:goalA:0.0.1")
+					.provides("br.unb.goalA")
+					.dependsOn("br.unb.goalB")
+					.build())
+				.addArtifact(
+					ArtifactBuilder.create()
+					.identification("br.unb:goalB:0.0.1")
+					.provides("br.unb.goalB")
+					.dependsOn("br.unb.goalA")
+					.build())
+				.build();
+		
+		DeploymentRequest request = DeploymentRequestBuilder.create()
+				.addGoal("br.unb.goalA")
+				.build();
+			
+		Agent agent = AgentBuilder.create()
+			.build();
+		
+		IDeploymentPlanner planner = new SimpleDeploymentPlanner(repoWithCycle);
+		
+		DeploymentPlanningResult result = planner.doPlan(request, agent);
+		Assert.assertTrue(result.isSuccessfull());
+		Assert.assertEquals(2, result.getPlanSize());
 	}
 
 //	@Test(expected = PlanSelectionException.class)

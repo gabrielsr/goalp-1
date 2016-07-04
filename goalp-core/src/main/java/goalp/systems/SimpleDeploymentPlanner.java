@@ -1,15 +1,17 @@
 package goalp.systems;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import goalp.model.Artifact;
 import goalp.model.DeploymentRequest;
 import goalp.model.Goal;
-import goalp.systems.DeploymentPlan.Status;
 
 public class SimpleDeploymentPlanner implements IDeploymentPlanner {
+
+	final static Logger logger = Logger.getLogger(SimpleDeploymentPlanner.class);
 	
 	private IRepository repository;
 
@@ -19,70 +21,106 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 	}
 
 	@Override
-	public DeploymentPlan doPlan(DeploymentRequest request, Agent agent)
+	public DeploymentPlanningResult doPlan(DeploymentRequest request, Agent agent)
 			throws PlanSelectionException {
 	
 		if(request == null || agent == null){
 			throw new InvalidDeploymentRequestException();
 		}
 		
-		Date begin,end;
-		
-		begin = new Date();
-		DeploymentPlan plan = makePlan(request, agent);
-		end = new Date();
-		plan.planDuration = begin.getTime() - end.getTime();
-		
-		return plan;
-	}
-	
-	private DeploymentPlan makePlan(DeploymentRequest request, Agent agent)
-			throws PlanSelectionException {
-		DeploymentPlan plan = new DeploymentPlan();
-		
-		Status status = Status.SUCCESS;
-		
-		for(Goal goal: request.getGoals()){
-			List<Artifact> candidateProviders = repository.getArtifactsThatProvidesGoal(goal);
-			List<Artifact> selectedArtifacts = new ArrayList<>();
-			if(!checkAndAddToSelected(agent, candidateProviders, selectedArtifacts)) {
-				status = Status.FAILURE;
-				break;
-			}else{
-				plan.getSelectedArtifacts().addAll(selectedArtifacts);
-			}
-			
-		}
-		
-		plan.setStatus(status);
-		return plan;
-	}
-	
-	private boolean checkAndAddToSelected(Agent agent, List<Artifact> candidates, List<Artifact> selectedArtifacts){
-		if(candidates.isEmpty()){
-			return false;
-		}
-		
-		boolean result = false;
-		
-		for(Artifact candidate: candidates) {
-			
-			if(!checkContextRequirements(agent, candidate)){
-				break;
-			}else{
-				// TODO check dependencies
-				//List<IDependency> dependencies = candidate.getDependencies();
-				//repository.getArtifactsThatProvidesGoal(goal);
-				selectedArtifacts.add(candidate);
-				result = true;
-			}	
+		DeploymentPlanningResult result = new DeploymentPlanningResult();
+		try {
+			makePlan(agent, request.getGoals(), result);
+		}catch(Throwable e){
+			result.stop();
+			logger.error(e);
+			e.printStackTrace();
+			result.putFailure("Unespected Failure: " + e.toString() + "," + e.getMessage());
 		}
 		return result;
 	}
+	
+	private void makePlan(Agent agent, List<Goal> goals, DeploymentPlanningResult result) {
 
-	private boolean checkContextRequirements(Agent agent, Artifact artifact) {
-		for(String contextReq: artifact.getContextRequirement()){
-			if(agent.getComputingEnvironment().indexOf(contextReq)<0){
+		for(Goal goal: goals){
+			makePlan(agent, goal, result);
+		}
+
+		result.stop();
+	}
+	
+	private void makePlan(Agent agent, Goal goal, DeploymentPlanningResult result) {
+	
+		// Current result aready provides the required goal. 
+		// it is the case when there is cycles in the deployment 
+		if(result.getPlan().provides(goal)){
+			return;
+		}
+		
+		List<Artifact> candidateProviders = repository.getArtifactsThatProvidesGoal(goal);
+		
+		if(candidateProviders.isEmpty()){
+			result.putFailure("no artifact provides " + goal.getIdentication());
+			return;
+		}
+		
+		List<DeploymentPlanningResult> alternativePlans = new ArrayList<>();
+		for(Artifact candidate: candidateProviders) {
+			
+			if(!checkContextConditions(agent, candidate)){
+				if(logger.isDebugEnabled()){
+				    logger.debug("context conditions verification failure for " + candidate.getIdentification());
+				}
+				break;
+			}else{
+				//check dependencies
+				//logs a debug message
+				boolean allDependenciesSatisfied = true;
+				DeploymentPlanningResult depencyResult = new DeploymentPlanningResult();
+				depencyResult.incorporate(candidate);
+				depencyResult.incorporate(result.getPlan());
+				
+				for(Goal dependency: candidate.getDependencies() ){
+					DeploymentPlanningResult oneDepencyResult = new DeploymentPlanningResult();
+					oneDepencyResult.incorporate(depencyResult.getPlan());
+					
+					makePlan(agent, dependency, oneDepencyResult);
+					if(oneDepencyResult.isSuccessfull()){
+						depencyResult.incorporate(oneDepencyResult.getPlan());
+					}else {
+						allDependenciesSatisfied = false;
+						break;
+					}
+				}
+				if(allDependenciesSatisfied){
+					alternativePlans.add(depencyResult);
+				}
+			}
+		}
+		if(alternativePlans.isEmpty()){
+			result.putFailure("no deployment plan that matches context conditions for " + goal.getIdentication());
+			return;
+		}
+		
+		DeploymentPlanningResult chosen = chooseAlternative(alternativePlans);
+		
+		result.incorporate(chosen.getPlan());
+	}
+
+	private DeploymentPlanningResult chooseAlternative(List<DeploymentPlanningResult> alternativePlans) {
+		DeploymentPlanningResult chosen = alternativePlans.get(0);
+		for(DeploymentPlanningResult alternative:alternativePlans){
+			if(alternative.getPlan().getSelectedArtifacts().size() <
+					chosen.getPlan().getSelectedArtifacts().size()){
+				chosen = alternative;
+			}
+		}
+		return chosen;
+	}
+	
+	private boolean checkContextConditions(Agent agent, Artifact artifact) {
+		for(String contextReq: artifact.getContextConditions()){
+			if(agent.getContext().indexOf(contextReq)<0){
 				return false;
 			}
 		}

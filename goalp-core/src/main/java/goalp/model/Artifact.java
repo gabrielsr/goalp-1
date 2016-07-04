@@ -3,11 +3,11 @@ package goalp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Artifact implements IDependency, IDependant{
+public class Artifact{
 
 	protected List<Goal> provide;
 	
-	protected List<IDependency> dependencies;
+	protected List<Goal> dependencies;
 
 	protected String identification;
 	
@@ -29,18 +29,18 @@ public class Artifact implements IDependency, IDependant{
 		this.provide = provide;
 	}
 
-	public List<IDependency> getDependencies() {
+	public List<Goal> getDependencies() {
 		if(this.dependencies == null){
 			this.dependencies = new ArrayList<>();
 		}
 		return dependencies;
 	}
 
-	public void setDependencies(List<IDependency> dependencies) {
+	public void setDependencies(List<Goal> dependencies) {
 		this.dependencies = dependencies;
 	}
 
-	public List<String> getContextRequirement() {
+	public List<String> getContextConditions() {
 		if(contextRequirement == null){
 			contextRequirement = new ArrayList<>();
 		}
@@ -58,6 +58,12 @@ public class Artifact implements IDependency, IDependant{
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Artifact [provide=" + provide + ", dependencies=" + dependencies + ", identification=" + identification
+				+ ", contextRequirement=" + contextRequirement + "]";
 	}
 
 }

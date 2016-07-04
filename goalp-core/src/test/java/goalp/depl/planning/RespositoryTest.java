@@ -23,12 +23,12 @@ public class RespositoryTest {
 			.addArtifact(
 				ArtifactBuilder.create()
 				.identification("br.unb:greater:0.0.1")
-				.providesGoal("br.unb.greet")
+				.provides("br.unb.greet")
 				.build())
 			.addArtifact(
 				ArtifactBuilder.create()
 				.identification("br.unb:alarm:0.0.1")
-				.providesGoal("br.unb.alarm")
+				.provides("br.unb.alarm")
 				.build())
 			.build();
 	}

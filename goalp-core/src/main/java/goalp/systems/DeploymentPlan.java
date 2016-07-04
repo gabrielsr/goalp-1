@@ -1,42 +1,34 @@
 package goalp.systems;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import goalp.model.Artifact;
+import goalp.model.Goal;
 
 public class DeploymentPlan {
 
-	protected List<Artifact> selectedArtifacts;
+	protected Set<Artifact> selectedArtifacts;
 
-	protected Status status;
-	
-	/**
-	 * Time of clock took in planning in milisecons.
-	 */
-	protected Long planDuration;
 
-	public enum Status {
-		SUCCESS, FAILURE
-	}
-
-	public List<Artifact> getSelectedArtifacts() {
+	public Set<Artifact> getSelectedArtifacts() {
 		if(selectedArtifacts == null){
-			selectedArtifacts = new ArrayList<>();
+			selectedArtifacts = new HashSet<>();
 		}
 		return selectedArtifacts;
 	}
 
-	public void setSelectedArtifacts(List<Artifact> selectedArtifacts) {
+	public void setSelectedArtifacts(Set<Artifact> selectedArtifacts) {
 		this.selectedArtifacts = selectedArtifacts;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
+	public boolean provides(Goal goal) {
+		for(Artifact artifact: getSelectedArtifacts()){
+			if(artifact.isProvider(goal)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

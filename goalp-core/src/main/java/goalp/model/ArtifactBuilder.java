@@ -20,26 +20,23 @@ public class ArtifactBuilder {
 
 	public ArtifactBuilder identification(String identification) {
 		this.artifact.identification = identification;
+		this.artifact.getProvide().add((new Goal(identification)));
 		return this;
 	}
 
-	public ArtifactBuilder providesGoal(String goalIdentification){
-		this.artifact.getProvide().add((new Goal(goalIdentification)));
+	public ArtifactBuilder provides(String identification){
+		this.artifact.getProvide().add((new Goal(identification)));
 		return this;
 	}
 	
-	public ArtifactBuilder provides(IDependency dependency){
-		this.artifact.getDependencies().add(dependency);
+	public ArtifactBuilder dependsOn(String identification){
+		this.artifact.getDependencies().add(new Goal(identification));
 		return this;
 	}
 	
-	public ArtifactBuilder dependsOn(IDependency dependency){
-		this.artifact.getDependencies().add(dependency);
+	public ArtifactBuilder condition(String requirement){
+		this.artifact.getContextConditions().add(requirement);
 		return this;
 	}
-	
-	public ArtifactBuilder requires(String requirement){
-		this.artifact.getContextRequirement().add(requirement);
-		return this;
-	}
+
 }

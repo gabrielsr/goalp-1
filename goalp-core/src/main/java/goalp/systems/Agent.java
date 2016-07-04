@@ -9,8 +9,7 @@ import goalp.model.Resource;
 
 public class Agent {
 
-	protected List<String> computingEnvironment;
-
+	protected List<String> context;
 
 	protected List<Resource> resources;
 
@@ -19,15 +18,15 @@ public class Agent {
 	protected List<Goal> achievableGoals;
 
 
-	public List<String> getComputingEnvironment() {
-		if(computingEnvironment == null){
-			computingEnvironment = new ArrayList<>();
+	public List<String> getContext() {
+		if(context == null){
+			context = new ArrayList<>();
 		}
-		return computingEnvironment;
+		return context;
 	}
 
-	public void setComputingEnvironment(List<String> computingEnvironment) {
-		this.computingEnvironment = computingEnvironment;
+	public void setContext(List<String> context) {
+		this.context = context;
 	}
 	
 	public List<Resource> getResources() {

@@ -18,5 +18,10 @@ public class DeploymentRequest {
 	public void setGoals(List<Goal> goals) {
 		this.goals = goals;
 	}
+
+	@Override
+	public String toString() {
+		return "DeploymentRequest [goals=" + goals + "]";
+	}
 	
 }
