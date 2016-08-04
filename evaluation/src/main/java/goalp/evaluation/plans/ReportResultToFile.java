@@ -7,11 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.inject.Named;
+
 import goalp.Conf;
 import goalp.Conf.Keys;
 import goalp.evaluation.goals.IReportResult;
 import goalp.evaluation.model.Experiment;
 
+@Named
 public class ReportResultToFile implements IReportResult {
 
 

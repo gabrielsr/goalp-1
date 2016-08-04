@@ -7,6 +7,7 @@
 
 	<modules>
 		<module>goalp-core</module>
+		<module>evaluation</module>
 	</modules>
 
 	<name>goalp-parent</name>
@@ -28,6 +29,7 @@
 	</scm>
 
 	<build>
+	
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -52,7 +54,6 @@
 			<url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}</url>
 		</repository>
 	</distributionManagement>
-
 	<profiles>
 		<profile>
 			<id>release</id>

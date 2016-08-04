@@ -5,8 +5,7 @@ public class Experiment {
 	ExpSpecification spec;
 
 	public ExpSpecification getSpecification() {
-		// TODO Auto-generated method stub
-		return null;
+		return spec;
 	}
 
 	public void setResult(Object result) {

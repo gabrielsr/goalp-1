@@ -1,9 +1,12 @@
 package goalp.evaluation.goals;
 
-import goalp.evaluation.ExperimentTimer;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.Setup;
 import goalp.evaluation.plans.CreateSpecifiedRepository;
+import goalp.evaluation.plans.ExperimentTimer;
 import goalp.model.DeploymentRequest;
 import goalp.model.DeploymentRequestBuilder;
 import goalp.systems.Agent;
@@ -14,10 +17,13 @@ import goalp.systems.IRepository;
 import goalp.systems.PlanSelectionException;
 import goalp.systems.SimpleDeploymentPlanner;
 
+@Named
 public class ExecuteExperiment implements IExecuteExperiments {
 
-	Setup setup;
+	@Inject
 	ExperimentTimer timer;
+
+	Setup setup;
 	DeploymentRequest request;
 	DeploymentPlanningResult result;
 	String rootGoal = "br.unb.rootGoal:0.0.1";

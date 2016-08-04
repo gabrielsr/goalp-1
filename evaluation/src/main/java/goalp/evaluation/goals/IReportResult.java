@@ -1,7 +1,6 @@
 package goalp.evaluation.goals;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import goalp.evaluation.model.Experiment;
 

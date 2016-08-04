@@ -2,12 +2,19 @@ package goalp.evaluation.goals;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import goalp.evaluation.model.Experiment;
 
 public class Evaluate implements IEvaluate {
 
+	@Inject
 	ICreateExperiments create;
+	
+	@Inject
 	IExecuteExperiments execute;
+	
+	@Inject
 	IReportResult report;
 	
 	@Override

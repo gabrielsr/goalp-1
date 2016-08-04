@@ -34,6 +34,14 @@ public class ArtifactBuilder {
 		return this;
 	}
 	
+	public ArtifactBuilder dependsOn(String[] identifications){
+		for(String identification:identifications){
+			dependsOn(identification);
+		}
+		return this;
+	}
+	
+	
 	public ArtifactBuilder condition(String requirement){
 		this.artifact.getContextConditions().add(requirement);
 		return this;

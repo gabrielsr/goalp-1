@@ -3,11 +3,14 @@ package goalp.evaluation.plans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
+
 import goalp.evaluation.goals.ICreateExperiments;
 import goalp.evaluation.model.ExpSpecification;
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.ExperimentBuilder;
 
+@Named
 public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals implements ICreateExperiments {
 
 	@Override
