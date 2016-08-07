@@ -12,21 +12,15 @@
 	<packaging>jar</packaging>
 
 	<url>http://maven.apache.org</url>
-
+	
+	<repositories>
+	    <repository>
+	        <id>bintray-lesunb</id>
+	        <url>https://dl.bintray.com/lesunb/third-party</url>
+	    </repository>
+	</repositories>
+	
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
 
 		<dependency>
 			<groupId>br.unb.goalp</groupId>
@@ -40,6 +34,32 @@
 		    <artifactId>weld-se-core</artifactId>
 		    <version>2.3.5.Final</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.jboss.weld/weld-logger -->
+		<dependency>
+		    <groupId>org.jboss.weld</groupId>
+		    <artifactId>weld-logger</artifactId>
+		    <version>1.0.0-CR2</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>slf4j-api</artifactId>
+		    		<groupId>org.slf4j</groupId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.0.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.panayotis</groupId>
+			<artifactId>JavaPlot</artifactId>
+			<version>0.5.0</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -19,7 +19,7 @@ public class ExperimentBuilder {
 	}
 
 	public ExperimentBuilder spec(ExpSpecification spec) {
-		this.experiment.spec = spec;
+		this.experiment.setSpecification(spec);
 		return this;
 	}
 

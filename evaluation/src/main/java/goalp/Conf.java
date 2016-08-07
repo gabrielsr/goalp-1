@@ -8,9 +8,12 @@ public class Conf {
 
 	static Map<Keys, String> confs = new HashMap<>();
 	
+	static final String BASE_DIR = "." + System.getProperty("file.separator")
+	+"result" + System.getProperty("file.separator");
+	
 	public enum Keys {
 		
-		RESULT_FILE ("restult_"+(new Date()).toLocaleString());
+		RESULT_FILE (BASE_DIR+"restult_"+(new Date()).toLocaleString());
 
 		String _default;
 

@@ -3,7 +3,8 @@ package goalp.systems;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import goalp.model.Artifact;
 import goalp.model.DeploymentRequest;
@@ -11,7 +12,7 @@ import goalp.model.Goal;
 
 public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 
-	final static Logger logger = Logger.getLogger(SimpleDeploymentPlanner.class);
+	final static Logger logger = LogManager.getLogger(SimpleDeploymentPlanner.class);
 	
 	private IRepository repository;
 

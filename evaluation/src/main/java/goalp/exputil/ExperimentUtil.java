@@ -1,4 +1,4 @@
-package goalp.evaluation.plans;
+package goalp.exputil;
 
 public class ExperimentUtil {
 

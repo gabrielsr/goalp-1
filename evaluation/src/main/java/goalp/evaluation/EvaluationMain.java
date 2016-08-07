@@ -15,20 +15,23 @@ import goalp.evaluation.goals.Evaluate;
 @Singleton
 public class EvaluationMain {
 
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
+
+
 		System.out.println("Initializing goalp planning evaluation ... ");
 
 		Weld weld = new Weld();
 		WeldContainer container = weld.initialize();
 		container.select(Evaluate.class).get().exec();
 		container.shutdown();
-				
+
 		System.out.println("Goalp planning evaluation has come a normal end. Good bye");
 	}
-	
-   public void printHello(@Observes ContainerInitialized event, @Parameters List<String> parameters) {
 
-       System.out.println("Hello");
+	public void printHello(@Observes ContainerInitialized event, @Parameters List<String> parameters) {
 
-   }
+		System.out.println("Hello");
+
+	}
 }

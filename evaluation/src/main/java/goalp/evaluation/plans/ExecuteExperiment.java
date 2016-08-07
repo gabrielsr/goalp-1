@@ -1,12 +1,14 @@
-package goalp.evaluation.goals;
+package goalp.evaluation.plans;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+
+import goalp.evaluation.goals.IExecuteExperiments;
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.Setup;
-import goalp.evaluation.plans.CreateSpecifiedRepository;
-import goalp.evaluation.plans.ExperimentTimer;
+import goalp.exputil.ExperimentTimer;
 import goalp.model.DeploymentRequest;
 import goalp.model.DeploymentRequestBuilder;
 import goalp.systems.Agent;
@@ -21,11 +23,14 @@ import goalp.systems.SimpleDeploymentPlanner;
 public class ExecuteExperiment implements IExecuteExperiments {
 
 	@Inject
+	Logger log;
+	
+	@Inject
 	ExperimentTimer timer;
 
 	Setup setup;
 	DeploymentRequest request;
-	DeploymentPlanningResult result;
+	DeploymentPlanningResult resultPlan;
 	String rootGoal = "br.unb.rootGoal:0.0.1";
 	
 	
@@ -38,11 +43,11 @@ public class ExecuteExperiment implements IExecuteExperiments {
 		//	.exec(executeAndMesureExperiment(setup))
 		timer.begin();
 		setupEnvironment(experiment);
-		timer.split("finish setup");
+		timer.split("setup");
 		executeExperiment();
-		timer.split("finish executed");
+		timer.split("execution");
 		validateResult();
-		timer.split("finish validation");
+		timer.split("validation");
 		experiment.setResult(timer.result());
 		clean();
 	}
@@ -67,10 +72,11 @@ public class ExecuteExperiment implements IExecuteExperiments {
 	private void executeExperiment() {
 		
 		try {
-			result = setup.planner.doPlan(request,  setup.agent);
+			resultPlan = setup.planner.doPlan(request,  setup.agent);
 		} catch (PlanSelectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("error planning:" + e.getMessage());
+			log.error("for " + request.toString());
+			log.error("with setup " + setup.toString());
 		}
 		
 	}
