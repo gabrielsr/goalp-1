@@ -1,5 +1,5 @@
 package goalp.evaluation.model;
 
-public class Mesure {
+public class Measure {
 
 }

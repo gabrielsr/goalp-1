@@ -10,5 +10,7 @@ public interface IRepository {
 	void addArtifact(Artifact artifact);
 
 	List<Artifact> getArtifactsThatProvidesGoal(Goal goal);
+	
+	int getSize();
 
 }

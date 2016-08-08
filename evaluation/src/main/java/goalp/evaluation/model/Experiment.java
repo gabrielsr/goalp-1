@@ -26,8 +26,8 @@ public class Experiment {
 		this.result = result;
 	}
 
-	public void setResult(List<Split> result) {
-		this.result = new ExpResult(result);
+	public void setResult(ExpSpecification spec, int size, List<Split> splits) {
+		this.result = new ExpResult(size, spec.getRepoSpec(), splits);
 	}
 
 

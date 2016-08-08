@@ -3,9 +3,11 @@ package goalp.exputil;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import javax.inject.Named;
+
+import com.panayotis.gnuplot.dataset.Point;
 
 import goalp.Conf;
 import goalp.Conf.Keys;
@@ -18,20 +20,45 @@ public class ReportResultToEpsGraph implements IReportResult {
 
 	@Override
 	public void exec(List<Experiment> experiments) {
+		createGraph(experiments, (exp) -> {
+			long size = exp.getResult().getRepoSize();
+			long nanoSecs = exp.getResult().getDuration("execution");
+			return new Point<Number>(size, nanoSecs);
+		}, "size");
+
+		createGraph(experiments, (exp) -> {
+			long depth = exp.getSpecification().getRepoSpec().getDepth();
+			long nanoSecs = exp.getResult().getDuration("execution");
+			return new Point<Number>(depth, nanoSecs);
+		}, "depth");
+		
+		createGraph(experiments, (exp) -> {
+			long width = exp.getSpecification().getRepoSpec().getWidth();
+			long nanoSecs = exp.getResult().getDuration("execution");
+			return new Point<Number>(width, nanoSecs);
+		}, "width");
+		
+		createGraph(experiments, (exp) -> {
+			long dupl = exp.getSpecification().getRepoSpec().getDuplication();
+			long nanoSecs = exp.getResult().getDuration("execution");
+			return new Point<Number>(dupl, nanoSecs);
+		}, "dupl");
+	}
+	
+		
+	private void createGraph(List<Experiment> experiments,  Function<Experiment, Point> mapper, String name) {
 		
 		//create dataset
 		DataSetBuilder<Number> dsbuilder = DataSetBuilder.create();
 		
 		for(Experiment exp:experiments){
-			long depth = exp.getSpecification().getRepoSpec().getDepth();
-			long nanoSecs = exp.getResult().getDuration("execution");
-			Double milisecs = nanoToMiliseconds(nanoSecs);
-			dsbuilder.addPoint(depth, milisecs);
+			
+			dsbuilder.addPoint(mapper.apply(exp));
 		}
 		
 		//create graph
 		PlotBuilder.create()
-		.asEps(Conf.get(Keys.RESULT_FILE) + ".eps")
+		.asEps(Conf.get(Keys.RESULT_FILE) + name + ".eps")
 		.xLabel("Artifacts")
 		.yLabel("Time (ms)")
 		.addDataSet(dsbuilder.build())

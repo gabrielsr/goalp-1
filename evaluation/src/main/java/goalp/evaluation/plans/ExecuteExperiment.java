@@ -48,7 +48,7 @@ public class ExecuteExperiment implements IExecuteExperiments {
 		timer.split("execution");
 		validateResult();
 		timer.split("validation");
-		experiment.setResult(timer.result());
+		experiment.setResult(experiment.getSpecification(), setup.repo.getSize(), timer.result());
 		clean();
 	}
 

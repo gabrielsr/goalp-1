@@ -1,9 +1,5 @@
 package goalp.evaluation.plans;
 
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
-
 import goalp.evaluation.model.ExpSpecification;
 import goalp.evaluation.model.ExpSpecification.RepoSpec;
 import goalp.model.Artifact;

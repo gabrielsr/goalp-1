@@ -9,6 +9,8 @@ import goalp.model.Goal;
 public class SimpleListRepository implements IRepository {
 
 	protected List<Artifact> knownArtifacts;
+	
+	int repoSize = 0;
 
 	/* (non-Javadoc)
 	 * @see goalp.systems.IRepository#getKnownArtifacts()
@@ -22,7 +24,12 @@ public class SimpleListRepository implements IRepository {
 
 	@Override
 	public void addArtifact(Artifact artifact) {
+		repoSize++;
 		getKnownArtifacts().add(artifact);
+	}
+	
+	public int getSize(){
+		return repoSize;
 	}
 	
 	/* (non-Javadoc)
