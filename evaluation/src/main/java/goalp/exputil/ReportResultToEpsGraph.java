@@ -39,11 +39,11 @@ public class ReportResultToEpsGraph implements IReportResult {
 				log.info("ploting {0} vs (1)", factor, responseVariable);
 				
 				//create graph (factor vs result) for the experiment execution list
-				createGraph(exp.getExecutions(), (exec) -> {
+				createGraphOneFactor(exp, (exec) -> {
 					Number factorValue = exec.getEvaluation().getFactors().get(factor);
 					Number response = exec.getEvaluation().getResponseValue();
 					return new Point<Number>(factorValue, nanoToMiliseconds(response));
-				}, factor);
+				});
 				
 			}else if(factors.size()>1){
 				throw new IllegalStateException("multi factors experiment report was requested but implemented");
@@ -53,21 +53,21 @@ public class ReportResultToEpsGraph implements IReportResult {
 	}
 	
 		
-	private void createGraph(List<Execution> executions,  Function<Execution, Point<Number>> mapper, String name) {
+	private void createGraphOneFactor(Experiment exp,  Function<Execution, Point<Number>> mapper) {
 		
 		//create dataset
 		DataSetBuilder<Number> dsbuilder = DataSetBuilder.create();
 		
-		for(Execution exec:executions){
+		for(Execution exec:exp.getExecutions()){
 			
 			dsbuilder.addPoint(mapper.apply(exec));
 		}
 		
 		//create graph
 		PlotBuilder.create()
-		.asEps(Conf.get(Keys.RESULT_FILE) + name + ".eps")
-		.xLabel("Artifacts")
-		.yLabel("Time (ms)")
+		.asEps(Conf.get(Keys.RESULT_FILE) + EvalUtil.getOneFactor(exp) + ".eps")
+		.xLabel(EvalUtil.getOneFactor(exp))
+		.yLabel(EvalUtil.getResponseVariable(exp))
 		.addDataSet(dsbuilder.build())
 		.plot();
 

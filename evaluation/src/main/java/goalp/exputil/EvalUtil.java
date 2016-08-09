@@ -10,6 +10,13 @@ public class EvalUtil {
 		return exp.getEvaluation().getFactorList();
 	}
 	
+	public static String getOneFactor(Experiment exp){
+		if(exp.getEvaluation().getFactorList().size() != 1){
+			throw new IllegalStateException("should not call if has not exacly one factor");
+		}
+		return exp.getEvaluation().getFactorList().get(0);
+	}
+	
 	public static String getResponseVariable(Experiment exp){
 		return exp.getEvaluation().getResponseVariable();
 	}
