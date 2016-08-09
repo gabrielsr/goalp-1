@@ -1,34 +1,36 @@
 package goalp.evaluation.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import goalp.evaluation.ExperimentTimerImpl.Split;
-
 public class Experiment {
-
-	private ExpSpecification spec;
 	
-	private ExpResult result;
+	
+	private EvaluationComponent evaluation;
+		
+	private List<Execution> executions;
 
-	public ExpSpecification getSpecification() {
-		return spec;
+	public List<Execution> getExecutions() {
+		if(executions == null){
+			executions = new ArrayList<Execution>();
+		}
+		return executions;
 	}
 	
-	public void setSpecification(ExpSpecification spec){
-		this.spec = spec;
+
+	public void toExecute(Execution execution) {
+		getExecutions().add(execution);
 	}
 
-	public ExpResult getResult(){
-		return this.result;
+	public EvaluationComponent getEvaluation() {
+		if(evaluation == null){
+			evaluation = new EvaluationComponent();
+		}
+		return evaluation;
 	}
 
-	public void setResult(ExpResult result) {
-		this.result = result;
+	public void setEvaluation(EvaluationComponent evaluation) {
+		this.evaluation = evaluation;
 	}
-
-	public void setResult(ExpSpecification spec, int size, List<Split> splits) {
-		this.result = new ExpResult(size, spec.getRepoSpec(), splits);
-	}
-
 
 }

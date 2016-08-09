@@ -62,7 +62,7 @@ public class ExperimentTimerImpl implements ExperimentTimer {
 	 * @see goalp.evaluation.ExperimentTimer#split(java.lang.String)
 	 */
 	@Override
-	public void split(String label) {
+	public Number split(String label) {
 		Long newTime = System.nanoTime();
 		// TODO Auto-generated method stub
 		if(startTime == null){
@@ -74,6 +74,7 @@ public class ExperimentTimerImpl implements ExperimentTimer {
 		log.trace(split.toString());
 		measures.add(split);
 		startTime = System.nanoTime(); // start the timer againg
+		return duration;
 	}
 
 	/* (non-Javadoc)

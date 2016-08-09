@@ -8,7 +8,7 @@ public interface ExperimentTimer {
 
 	void begin();
 
-	void split(String string);
+	Number split(String string);
 
 	void finish();
 

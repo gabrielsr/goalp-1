@@ -1,59 +1,66 @@
 package goalp.exputil;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.slf4j.Logger;
 
 import com.panayotis.gnuplot.dataset.Point;
 
 import goalp.Conf;
 import goalp.Conf.Keys;
 import goalp.evaluation.goals.IReportResult;
+import goalp.evaluation.model.Execution;
 import goalp.evaluation.model.Experiment;
 
+/**
+ *  Context Requirement: gnuplot installed
+ */
 @Named
 public class ReportResultToEpsGraph implements IReportResult {
-
+	
+	
+	@Inject
+	Logger log;
 
 	@Override
 	public void exec(List<Experiment> experiments) {
-		createGraph(experiments, (exp) -> {
-			long size = exp.getResult().getRepoSize();
-			long nanoSecs = exp.getResult().getDuration("execution");
-			return new Point<Number>(size, nanoSecs);
-		}, "size");
+		experiments.forEach((exp) ->{
+			List<String> factors = exp.getEvaluation().getFactorList();
+			if(factors.size() == 0){
+				throw new IllegalStateException("experiment factors was not initialized");
+			}else if(factors.size() == 1){
+				
+				String factor = factors.get(0);
+				String responseVariable = ((Experiment)exp).getEvaluation().getResponseVariable();
+				log.info("ploting {0} vs (1)", factor, responseVariable);
+				
+				//create graph (factor vs result) for the experiment execution list
+				createGraph(exp.getExecutions(), (exec) -> {
+					Number factorValue = exec.getEvaluation().getFactors().get(factor);
+					Number response = exec.getEvaluation().getResponseValue();
+					return new Point<Number>(factorValue, nanoToMiliseconds(response));
+				}, factor);
+				
+			}else if(factors.size()>1){
+				throw new IllegalStateException("multi factors experiment report was requested but implemented");
+			}
 
-		createGraph(experiments, (exp) -> {
-			long depth = exp.getSpecification().getRepoSpec().getDepth();
-			long nanoSecs = exp.getResult().getDuration("execution");
-			return new Point<Number>(depth, nanoSecs);
-		}, "depth");
-		
-		createGraph(experiments, (exp) -> {
-			long width = exp.getSpecification().getRepoSpec().getWidth();
-			long nanoSecs = exp.getResult().getDuration("execution");
-			return new Point<Number>(width, nanoSecs);
-		}, "width");
-		
-		createGraph(experiments, (exp) -> {
-			long dupl = exp.getSpecification().getRepoSpec().getDuplication();
-			long nanoSecs = exp.getResult().getDuration("execution");
-			return new Point<Number>(dupl, nanoSecs);
-		}, "dupl");
+		});
 	}
 	
 		
-	private void createGraph(List<Experiment> experiments,  Function<Experiment, Point> mapper, String name) {
+	private void createGraph(List<Execution> executions,  Function<Execution, Point<Number>> mapper, String name) {
 		
 		//create dataset
 		DataSetBuilder<Number> dsbuilder = DataSetBuilder.create();
 		
-		for(Experiment exp:experiments){
+		for(Execution exec:executions){
 			
-			dsbuilder.addPoint(mapper.apply(exp));
+			dsbuilder.addPoint(mapper.apply(exec));
 		}
 		
 		//create graph
@@ -66,23 +73,9 @@ public class ReportResultToEpsGraph implements IReportResult {
 
 	}
 	
-	private Double nanoToMiliseconds(long nanoSecs) {
+	private Double nanoToMiliseconds(Number nanoSecs) {
 		Double value = (1.0d/1000.0d);
-		value *= nanoSecs;
+		value *= nanoSecs.longValue();
 		return value;
-	}
-
-	public void experimentToString(BufferedWriter writer, Experiment exp){
-		String experimentReport =  exp.getSpecification().numberOfGoals + "," +
-				exp.getSpecification().repoSpec + ","
-				+ "\n";
-		try {
-			
-			writer.write(experimentReport);
-			
-		}catch(IOException e){
-			throw new IllegalStateException(e);
-		}
-	}
-	
+	}	
 }

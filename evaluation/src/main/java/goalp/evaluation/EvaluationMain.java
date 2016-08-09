@@ -10,7 +10,7 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.jboss.weld.environment.se.bindings.Parameters;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 
-import goalp.evaluation.goals.Evaluate;
+import goalp.evaluation.goals.EvaluateStrategy;
 
 @Singleton
 public class EvaluationMain {
@@ -23,7 +23,7 @@ public class EvaluationMain {
 
 		Weld weld = new Weld();
 		WeldContainer container = weld.initialize();
-		container.select(Evaluate.class).get().exec();
+		container.select(EvaluateStrategy.class).get().exec();
 		container.shutdown();
 
 		System.out.println("Goalp planning evaluation has come a normal end. Good bye");

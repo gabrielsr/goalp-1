@@ -1,5 +1,7 @@
 package goalp.evaluation.model;
 
+import java.util.List;
+
 public class ExperimentBuilder {
 	
 	protected Experiment experiment;
@@ -18,8 +20,37 @@ public class ExperimentBuilder {
 		return built;
 	}
 
-	public ExperimentBuilder spec(ExpSpecification spec) {
-		this.experiment.setSpecification(spec);
+	public ExperimentBuilder addSpec(ExecSpec spec) {
+		Execution exec = new Execution();
+		
+		//set exec spec
+		exec.setSpecification(spec);
+		
+		//set exec eval with factors values from spec
+		EvaluationComponent eval = this.experiment.getEvaluation().blankCopy();
+		eval.getFactorList().forEach((factor)->{
+			eval.putFactor(factor, spec.getRepoSpec().get(factor));
+		});
+		exec.setEvaluation(eval);
+		
+		this.experiment.toExecute(exec);
+		return this;
+	}
+
+	public ExperimentBuilder addSpecs(List<ExecSpec> createSpecsRangeSetter) {
+		createSpecsRangeSetter.forEach((execSpec)->{
+			addSpec(execSpec);
+		});
+		return this;
+	}
+
+	public ExperimentBuilder setFactor(String factor) {
+		this.experiment.getEvaluation().putFactor(factor, null);
+		return this;
+	}
+
+	public ExperimentBuilder setResponseVariable(String responseVariable) {
+		this.experiment.getEvaluation().setResponseVariable(responseVariable);
 		return this;
 	}
 

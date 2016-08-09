@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 import goalp.evaluation.model.Experiment;
 
-public class Evaluate implements IEvaluate {
+public class EvaluateStrategy implements IEvaluate {
 
 	@Inject
 	ICreateExperiments create;

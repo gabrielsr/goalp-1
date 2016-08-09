@@ -1,7 +1,6 @@
 package goalp.evaluation.plans;
 
-import goalp.evaluation.model.ExpSpecification;
-import goalp.evaluation.model.ExpSpecification.RepoSpec;
+import goalp.evaluation.model.ExecSpec;
 import goalp.model.Artifact;
 import goalp.model.ArtifactBuilder;
 import goalp.systems.IRepository;
@@ -9,13 +8,15 @@ import goalp.systems.RepositoryBuilder;
 
 public class CreateSpecifiedRepository {
 	
-	public static IRepository exec(ExpSpecification spec, String rootGoal){
-		RepoSpec repoSpec = spec.getRepoSpec();
+	public static IRepository exec(ExecSpec spec, String rootGoal){
+		Integer width = spec.getRepoSpec().get("width");
+		Integer depth = spec.getRepoSpec().get("depth");
+		
 		
 		RepositoryBuilder builder = RepositoryBuilder.create();
 		
 		createArtifactWithWidthDependenciesOfDepthDepencies(builder, rootGoal,
-				repoSpec.getWidth(), repoSpec.getDepth());
+				width, depth);
 		
 		return builder.build();
 	}
