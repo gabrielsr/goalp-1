@@ -6,7 +6,6 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 
 import goalp.evaluation.goals.IExecuteExperiments;
-import goalp.evaluation.model.EvaluationComponent;
 import goalp.evaluation.model.Execution;
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.Setup;

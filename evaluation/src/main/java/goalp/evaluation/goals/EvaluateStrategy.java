@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import goalp.evaluation.model.Experiment;
 
 public class EvaluateStrategy implements IEvaluate {
@@ -18,10 +16,6 @@ public class EvaluateStrategy implements IEvaluate {
 	
 	@Inject
 	IReportResult report;
-	
-	
-	private @Inject Logger log;
-	
 	
 	@Override
 	public void exec(){

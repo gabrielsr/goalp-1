@@ -13,6 +13,7 @@ public class Conf {
 	
 	public enum Keys {
 		
+		@SuppressWarnings("deprecation")
 		RESULT_FILE (BASE_DIR+"restult_"+(new Date()).toLocaleString());
 
 		String _default;
