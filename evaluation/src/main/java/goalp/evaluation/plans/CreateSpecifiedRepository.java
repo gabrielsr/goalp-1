@@ -1,5 +1,6 @@
 package goalp.evaluation.plans;
 
+
 import goalp.evaluation.model.ExecSpec;
 import goalp.model.Artifact;
 import goalp.model.ArtifactBuilder;
@@ -9,9 +10,8 @@ import goalp.systems.RepositoryBuilder;
 public class CreateSpecifiedRepository {
 	
 	public static IRepository exec(ExecSpec spec, String rootGoal){
-		Integer width = spec.getRepoSpec().get("width");
-		Integer depth = spec.getRepoSpec().get("depth");
-		
+		Integer width = spec.getInteger("width");
+		Integer depth = spec.getInteger("depth");
 		
 		RepositoryBuilder builder = RepositoryBuilder.create();
 		

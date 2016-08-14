@@ -17,7 +17,6 @@ import goalp.systems.Agent;
 import goalp.systems.AgentBuilder;
 import goalp.systems.DeploymentPlanningResult;
 import goalp.systems.IDeploymentPlanner;
-import goalp.systems.IRepository;
 import goalp.systems.PlanSelectionException;
 import goalp.systems.SimpleDeploymentPlanner;
 
@@ -67,19 +66,21 @@ public class ExecuteExperiment implements IExecuteExperiments {
 
 	private void setupEnvironment(Execution exec) {
 		log.debug("setup repo :" + exec.getSpecification().toString());
-		IRepository repo = CreateSpecifiedRepository.exec(exec.getSpecification(), rootGoal);
 		
-		IDeploymentPlanner planner = new SimpleDeploymentPlanner(repo);
+		//TODO choose the correct strategy
+		//IRepository repo = CreateSpecifiedRepository.exec(exec.getSpecification(), rootGoal);
+		RepositorySetup setup = CreatePrismRepository.exec(exec.getSpecification());
+		
+		IDeploymentPlanner planner = new SimpleDeploymentPlanner(setup.getRepository());
 		
 		Agent agent = AgentBuilder.create()
 				.addContext("display_capability")
 				.build();
 		
-		this.setup = new Setup(repo, planner, agent);
+		this.setup = new Setup(setup.getRepository(), planner, agent);
 		this.request = DeploymentRequestBuilder.create()
-				.addGoal(rootGoal)
+				.addGoal(setup.getRootGoal())
 				.build();
-		
 	}
 
 	private void executeExperiment() {

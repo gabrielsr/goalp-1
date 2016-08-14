@@ -10,7 +10,7 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.jboss.weld.environment.se.bindings.Parameters;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 
-import goalp.evaluation.goals.EvaluateStrategy;
+import goalp.evaluation.strategy.EvaluateStrategy;
 
 @Singleton
 public class EvaluationMain {

@@ -8,13 +8,14 @@ import javax.inject.Named;
 
 import goalp.evaluation.goals.ICreateExperiments;
 import goalp.evaluation.model.ExecSpec;
+import goalp.evaluation.model.ExecSpecBuilder;
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.ExperimentBuilder;
 
-@Named
-public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals implements ICreateExperiments {
+//@Named
+public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals {// implements ICreateExperiments {
 
-	@Override
+	//@Override
 	public List<Experiment> exec() {
 		List<Experiment> experiments = new ArrayList<>();
 		experiments.add(createDepthExperiment(0, 100, 1));
@@ -29,8 +30,11 @@ public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals implemen
 				.setResponseVariable("execution_time");
 		
 		// create a model execution specifications with default values
-		ExecSpec model = new ExecSpec();
-		model.setRepoSpec(15, -1 , 0);
+		ExecSpec model = ExecSpecBuilder.create()
+				.put("width", 15)
+				.put("duplication", 0)
+				.put("type", 0)
+			.build();
 		
 		//create execution specification from a range os depths
 		addExecSpecsWithInRangeSetter(model, from, to, step, (spec, depth) ->{
@@ -47,8 +51,12 @@ public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals implemen
 			.setResponseVariable("execution_time");
 		
 		// create a model execution specifications with default values
-		ExecSpec model = new ExecSpec();
-		model.setRepoSpec(-1, 15 , 0);
+		ExecSpec model = ExecSpecBuilder.create()
+				.put("depth", 15)
+				.put("duplication", 0)
+				.put("type", 0)
+			.build();
+		
 		
 		//create execution specification from a range os depths
 		addExecSpecsWithInRangeSetter(model, from, to, step, (spec, width) ->{

@@ -29,7 +29,7 @@ public class ExperimentBuilder {
 		//set exec eval with factors values from spec
 		EvaluationComponent eval = this.experiment.getEvaluation().blankCopy();
 		eval.getFactorList().forEach((factor)->{
-			eval.putFactor(factor, spec.getRepoSpec().get(factor));
+			eval.putFactor(factor, spec.getInteger(factor));
 		});
 		exec.setEvaluation(eval);
 		
