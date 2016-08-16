@@ -13,10 +13,10 @@ import goalp.evaluation.model.ExecSpecBuilder;
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.ExperimentBuilder;
 
-@Named
-public class CreateExperimentsToEvaluateScalabilityOverNumberOfContexts implements ICreateExperiments {
+//@Named
+public class CreateExperimentsToEvaluateScalabilityOverNumberOfContexts{ // implements ICreateExperiments {
 
-	@Override
+	//@Override
 	public List<Experiment> exec() {
 		List<Experiment> experiments = new ArrayList<>();
 		experiments.add(createContextExperiment());
@@ -32,7 +32,7 @@ public class CreateExperimentsToEvaluateScalabilityOverNumberOfContexts implemen
 				.setResponseVariable("execution_time");
 		
 		// create a model execution specifications with default values
-		String[] contexts = {"A","B","C","D","E","F","G","H","I","J","K","L"};
+		String[] contexts = {"A","B","C","D"};//,"E","F","G","H","I","J","K","L"};
 		List<String> contextSpace = Arrays.asList(contexts);
 		
 		ExecSpec model = ExecSpecBuilder.create()

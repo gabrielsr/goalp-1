@@ -54,4 +54,14 @@ public class ExperimentBuilder {
 		return this;
 	}
 
+	public ExperimentBuilder setName(String name) {
+		this.experiment.name=name;
+		return this;
+	}
+	
+	public ExperimentBuilder putRepoSpec(String key, Object value) {
+		this.experiment.getRepoSpec().put(key, value);
+		return this;
+	}
+
 }

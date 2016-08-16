@@ -1,5 +1,7 @@
 package goalp.systems;
 
+import java.util.Collection;
+
 import goalp.model.resources.Display;
 
 public class AgentBuilder {
@@ -28,6 +30,10 @@ public class AgentBuilder {
 
 	public AgentBuilder addContext(String context) {
 		this.agent.getContext().add(context);
+		return this;
+	}
+	public AgentBuilder addContexts(Collection<String> contexts) {
+		this.agent.getContext().addAll(contexts);
 		return this;
 	}
 }

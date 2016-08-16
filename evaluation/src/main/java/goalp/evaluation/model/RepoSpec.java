@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExecSpec implements Cloneable{
+public class RepoSpec {
 
 	public Map<String, Object> repoSpec = new HashMap<>();
 	
@@ -20,6 +20,7 @@ public class ExecSpec implements Cloneable{
 		return (Integer) this.repoSpec.get(key);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T getObject(Class<T> t, String key){
 		Object obj = this.repoSpec.get(key);
 		if(obj != null && t.isAssignableFrom(obj.getClass())){
@@ -36,18 +37,5 @@ public class ExecSpec implements Cloneable{
 			obj = (List<String>) this.repoSpec.get(key);
 		}catch(Exception e){}
 		return obj;
-	}
-	
-	public ExecSpec clone(){
-		ExecSpec clone = new ExecSpec();
-		this.repoSpec.forEach((key, value) ->{
-			clone.repoSpec.put(key, value);
-		});
-		return clone;
-	}
-	
-	@Override
-	public String toString() {
-		return "ExecSpec [repoSpec=" + repoSpec + "]";
 	}
 }

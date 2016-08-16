@@ -17,7 +17,7 @@ public class Goal implements IDependency {
 		return (goal instanceof Goal
 				&& ((Goal) goal).identification.equals(identification)); 
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Goal [identification=" + identification + "]";

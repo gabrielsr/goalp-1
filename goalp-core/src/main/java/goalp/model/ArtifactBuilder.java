@@ -43,7 +43,9 @@ public class ArtifactBuilder {
 	
 	
 	public ArtifactBuilder condition(String requirement){
-		this.artifact.getContextConditions().add(requirement);
+		if(requirement != null){
+			this.artifact.getContextConditions().add(requirement);			
+		}
 		return this;
 	}
 

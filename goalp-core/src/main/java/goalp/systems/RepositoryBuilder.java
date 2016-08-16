@@ -1,13 +1,14 @@
 package goalp.systems;
 
 import goalp.model.Artifact;
+import goalp.repository.HashMapRepository;
 
 public class RepositoryBuilder {
 
 	private IRepository repository;
 
 	private RepositoryBuilder() {
-		this.repository = new SimpleListRepository();
+		this.repository = new HashMapRepository();
 	}
 
 	public static RepositoryBuilder create() {

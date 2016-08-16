@@ -5,6 +5,7 @@ import java.util.List;
 import goalp.evaluation.model.Experiment;
 
 public class EvalUtil {
+	
 
 	public static List<String> getFactors(Experiment exp){
 		return exp.getEvaluation().getFactorList();
