@@ -16,7 +16,7 @@ public class PlotBuilder {
 	 
 	private PlotBuilder(){
 		
-		this.p = new JavaPlot();
+		this.p = new JavaPlot(true);
 	}
 	
 	public static PlotBuilder create(){
@@ -41,8 +41,18 @@ public class PlotBuilder {
         p.getAxis("y").setLabel(label, labelFont, fontSize);
         return this;
 	}
+	
+	public PlotBuilder zLabel(String label){
+        p.getAxis("z").setLabel(label, labelFont, fontSize);
+        return this;
+	}
 
 	public PlotBuilder addDataSet(PointDataSet<Number> dataSet) {
+		p.addPlot(dataSet);
+		return this;
+	}
+	
+	public PlotBuilder addDataSet(DataSetPlot dataSet) {
 		p.addPlot(dataSet);
 		return this;
 	}

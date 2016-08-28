@@ -19,7 +19,7 @@ public class ExperimentBuilder {
 		this.experiment = null;
 		return built;
 	}
-
+	
 	public ExperimentBuilder addSpec(ExecSpec spec) {
 		Execution exec = new Execution();
 		
@@ -36,7 +36,7 @@ public class ExperimentBuilder {
 		this.experiment.toExecute(exec);
 		return this;
 	}
-
+	
 	public ExperimentBuilder addSpecs(List<ExecSpec> createSpecsRangeSetter) {
 		createSpecsRangeSetter.forEach((execSpec)->{
 			addSpec(execSpec);
@@ -44,8 +44,15 @@ public class ExperimentBuilder {
 		return this;
 	}
 
-	public ExperimentBuilder setFactor(String factor) {
+	public ExperimentBuilder addFactor(String factor) {
 		this.experiment.getEvaluation().putFactor(factor, null);
+		return this;
+	}
+	
+	public ExperimentBuilder addFactors(String[] factors) {
+		for(String factor:factors){
+			this.experiment.getEvaluation().putFactor(factor, null);			
+		}
 		return this;
 	}
 
@@ -61,6 +68,12 @@ public class ExperimentBuilder {
 	
 	public ExperimentBuilder putRepoSpec(String key, Object value) {
 		this.experiment.getRepoSpec().put(key, value);
+		return this;
+	}
+	
+	public ExperimentBuilder putRepoSpec(String key, int begin, int end) {
+		int[] range = {begin, end};
+		this.experiment.getRepoSpec().put(key, range);
 		return this;
 	}
 

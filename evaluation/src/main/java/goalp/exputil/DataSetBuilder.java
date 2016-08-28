@@ -5,6 +5,11 @@ import java.util.concurrent.TimeUnit;
 
 import com.panayotis.gnuplot.dataset.Point;
 import com.panayotis.gnuplot.dataset.PointDataSet;
+import com.panayotis.gnuplot.plot.DataSetPlot;
+import com.panayotis.gnuplot.style.FillStyle;
+import com.panayotis.gnuplot.style.FillStyle.Fill;
+import com.panayotis.gnuplot.style.PlotStyle;
+import com.panayotis.gnuplot.style.Style;
 
 public class DataSetBuilder<N extends Number> {
 	
@@ -90,9 +95,15 @@ public class DataSetBuilder<N extends Number> {
 		this.dataset = (PointDataSet<N>) newDataSet;
 	}
 
-	public PointDataSet<N>  build(){
+	public DataSetPlot  build(){
 		PointDataSet<N> built = this.dataset;
+		DataSetPlot dsplot = new DataSetPlot(built);
+		PlotStyle ps = new PlotStyle();
+		ps.setStyle(Style.STEPS);
+		ps.setFill(new FillStyle(Fill.SOLID));
+		dsplot.setPlotStyle(new PlotStyle());
+		dsplot.setPlotStyle(ps);
 		this.dataset = null;
-		return built;
+		return dsplot;
 	}
 }

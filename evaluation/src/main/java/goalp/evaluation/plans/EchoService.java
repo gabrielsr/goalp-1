@@ -16,7 +16,7 @@ public class EchoService {
 	public void it(ExperimentSetup expSetup) {
 		log.info("############################ Experiment Setup");
 		log.info("# Repository of Size:" + expSetup.getRepository().getSize());
-		log.info("# Nº RootGoal:" + expSetup.getRootGoals().size() + " / RootGoals:" + expSetup.getRootGoals());
+		log.info("# Nº RootGoal:" + expSetup.getRootGoals().size());
 		log.info("# Agent Contexts:" + expSetup.getAgent().getContext());
 		log.info("#############################################");
 	}

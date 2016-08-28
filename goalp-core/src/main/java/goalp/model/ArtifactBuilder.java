@@ -1,5 +1,7 @@
 package goalp.model;
 
+import java.util.Collection;
+
 public class ArtifactBuilder {
 	
 	protected Artifact artifact;
@@ -45,6 +47,13 @@ public class ArtifactBuilder {
 	public ArtifactBuilder condition(String requirement){
 		if(requirement != null){
 			this.artifact.getContextConditions().add(requirement);			
+		}
+		return this;
+	}
+	
+	public ArtifactBuilder conditions(Collection<String> conditions){
+		if(conditions != null){
+			this.artifact.getContextConditions().addAll(conditions);
 		}
 		return this;
 	}

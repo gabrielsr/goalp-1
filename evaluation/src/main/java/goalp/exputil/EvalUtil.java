@@ -18,6 +18,10 @@ public class EvalUtil {
 		return exp.getEvaluation().getFactorList().get(0);
 	}
 	
+	public static String getFactor(Experiment exp, int factor){
+		return exp.getEvaluation().getFactorList().get(factor);
+	}
+	
 	public static String getResponseVariable(Experiment exp){
 		return exp.getEvaluation().getResponseVariable();
 	}

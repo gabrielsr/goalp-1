@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import javax.inject.Named;
-
-import goalp.evaluation.goals.ICreateExperiments;
 import goalp.evaluation.model.ExecSpec;
 import goalp.evaluation.model.ExecSpecBuilder;
 import goalp.evaluation.model.Experiment;
@@ -28,7 +25,7 @@ public class CreateExperimentsToEvaluateScalabilityOverNumberOfContexts{ // impl
 		
 		ExperimentBuilder expBuilder = ExperimentBuilder
 				.create()
-				.setFactor(factorLavel)
+				.addFactor(factorLavel)
 				.setResponseVariable("execution_time");
 		
 		// create a model execution specifications with default values
@@ -46,7 +43,7 @@ public class CreateExperimentsToEvaluateScalabilityOverNumberOfContexts{ // impl
 		
 		//create execution specification from a range of k combination, from 0
 		addExecSpecsWithInRangeSetter(model, 0, contextSpace.size(), 1, (spec, contextsInEachArtifact) ->{
-			spec.getRepoSpec().put(factorLavel, contextsInEachArtifact);
+			spec.put(factorLavel, contextsInEachArtifact);
 		}, expBuilder);
 		
 		return expBuilder.build();

@@ -8,9 +8,6 @@ public class ExecSpec implements Cloneable{
 
 	public Map<String, Object> repoSpec = new HashMap<>();
 	
-	public Map<String, Object> getRepoSpec() {
-		return repoSpec;
-	}
 
 	public void put(String key, Object value){
 		this.repoSpec.put(key, value);

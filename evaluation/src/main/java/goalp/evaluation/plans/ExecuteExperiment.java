@@ -14,6 +14,7 @@ import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.ExperimentSetup;
 import goalp.exputil.EvalUtil;
 import goalp.exputil.ExperimentTimer;
+import goalp.exputil.WriteService;
 import goalp.model.DeploymentRequest;
 import goalp.model.DeploymentRequestBuilder;
 import goalp.plans.ValidatePlan;
@@ -22,7 +23,6 @@ import goalp.systems.Agent;
 import goalp.systems.AgentBuilder;
 import goalp.systems.DeploymentPlanningResult;
 import goalp.systems.IDeploymentPlanner;
-import goalp.systems.IRepository;
 import goalp.systems.PlanSelectionException;
 import goalp.systems.SimpleDeploymentPlanner;
 
@@ -37,6 +37,9 @@ public class ExecuteExperiment implements IExecuteExperiments {
 	
 	@Inject
 	EchoService echo;
+	
+	@Inject
+	WriteService write;
 	
 	ValidatePlan validate = new ValidatePlan();
 	
@@ -64,10 +67,11 @@ public class ExecuteExperiment implements IExecuteExperiments {
 			
 			//run execution
 			timer.begin();
-			ExecResult restul = execute(exec);
+			ExecResult result = execute(exec);
 			Number responseResult = timer.split("execution");
+			write.it(result);
 			
-			validateResult(restul);
+			validateResult(result);
 			timer.split("validation");
 			exec.getEvaluation().setResponseValue(responseResult);
 			timer.finish();
@@ -106,7 +110,8 @@ public class ExecuteExperiment implements IExecuteExperiments {
 		
 		
 		int numberOfGoals = exec.getSpecification().getInteger("numberOfGoals");
-		List<String> repositoryGoals = expSetup.getRootGoals();
+		int variability = exec.getSpecification().getInteger("variability");
+		List<String> repositoryGoals = expSetup.getRootGoals(variability);
 		
 		List<String> execGoals = new ArrayList<>(); 
 		for(int i=0; i< numberOfGoals; i++){
@@ -125,6 +130,8 @@ public class ExecuteExperiment implements IExecuteExperiments {
 			log.error("for " + request.toString());
 			log.error("with setup " + expSetup.toString());
 		}
+		exec.getEvaluation().getFactors().put("Variability", variability);
+		exec.getEvaluation().getFactors().put("Plan size", resultPlan.getPlanSize());
 		
 		echo.it(exec, resultPlan);
 		
@@ -136,11 +143,13 @@ public class ExecuteExperiment implements IExecuteExperiments {
 	private void validateResult(ExecResult execResult) {
 		if(!execResult.resultPlan.isSuccessfull()){
 			log.error("Planning fail");
-			throw new IllegalStateException("Planning fail");	
+			log.error(execResult.resultPlan.failures.toString());
+			//throw new IllegalStateException("Planning fail");	
 		}
 		
 		ValidationResult valResult = validate.exec(execResult.request, execResult.resultPlan);
-		if(valResult != ValidatePlan.ValidationResult.OK){
+		if(execResult.resultPlan.isSuccessfull() 
+				&& valResult != ValidatePlan.ValidationResult.OK){
 			log.error("Planning succeded but returned a invallid result");
 			throw new IllegalStateException("Planning succeded but returned a invallid result");
 		}
@@ -154,12 +163,30 @@ public class ExecuteExperiment implements IExecuteExperiments {
 	
 	public class ExecResult {
 		DeploymentRequest request;
+
 		DeploymentPlanningResult resultPlan;
-		
+
 		public ExecResult(DeploymentRequest request, DeploymentPlanningResult resultPlan) {
 			this.request = request;
 			this.resultPlan = resultPlan;
 		}
+		
+		public DeploymentRequest getRequest() {
+			return request;
+		}
+
+		public void setRequest(DeploymentRequest request) {
+			this.request = request;
+		}
+
+		public DeploymentPlanningResult getResultPlan() {
+			return resultPlan;
+		}
+
+		public void setResultPlan(DeploymentPlanningResult resultPlan) {
+			this.resultPlan = resultPlan;
+		}
+
 	}
 	
 

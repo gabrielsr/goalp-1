@@ -1,4 +1,4 @@
-package goalp.exputil;
+package goalp.evaluation.plans;
 
 import java.util.List;
 import java.util.function.Function;
@@ -15,17 +15,20 @@ import goalp.Conf.Keys;
 import goalp.evaluation.goals.IReportResult;
 import goalp.evaluation.model.Execution;
 import goalp.evaluation.model.Experiment;
+import goalp.exputil.DataSetBuilder;
+import goalp.exputil.EvalUtil;
+import goalp.exputil.PlotBuilder;
 
 /**
  * Context Requirement: gnuplot installed
  */
-@Named
-public class ReportAllExperimentsResultsToOneEpsGraph implements IReportResult {
+//@Named
+public class ReportAllExperimentsResultsToOneEpsGraph { // implements IReportResult {
 
 	@Inject
 	Logger log;
 
-	@Override
+	//@Override
 	public void exec(List<Experiment> experiments) {
 		
 		// create graph

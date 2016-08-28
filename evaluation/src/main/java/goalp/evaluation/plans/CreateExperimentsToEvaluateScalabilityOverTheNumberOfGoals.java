@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import javax.inject.Named;
-
-import goalp.evaluation.goals.ICreateExperiments;
 import goalp.evaluation.model.ExecSpec;
 import goalp.evaluation.model.ExecSpecBuilder;
 import goalp.evaluation.model.Experiment;
@@ -26,7 +23,7 @@ public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals {// impl
 	private Experiment createDepthExperiment(int from, int to, int step) {
 		ExperimentBuilder expBuilder = ExperimentBuilder
 				.create()
-				.setFactor("depth")
+				.addFactor("depth")
 				.setResponseVariable("execution_time");
 		
 		// create a model execution specifications with default values
@@ -38,7 +35,7 @@ public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals {// impl
 		
 		//create execution specification from a range os depths
 		addExecSpecsWithInRangeSetter(model, from, to, step, (spec, depth) ->{
-			spec.getRepoSpec().put("depth", depth);
+			spec.put("depth", depth);
 		}, expBuilder);
 		
 		return expBuilder.build();
@@ -47,7 +44,7 @@ public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals {// impl
 	private Experiment createWidthExperiment(int from, int to, int step) {
 		ExperimentBuilder expBuilder = ExperimentBuilder
 			.create()
-			.setFactor("width")
+			.addFactor("width")
 			.setResponseVariable("execution_time");
 		
 		// create a model execution specifications with default values
@@ -60,7 +57,7 @@ public class CreateExperimentsToEvaluateScalabilityOverTheNumberOfGoals {// impl
 		
 		//create execution specification from a range os depths
 		addExecSpecsWithInRangeSetter(model, from, to, step, (spec, width) ->{
-			spec.getRepoSpec().put("width", width);
+			spec.put("width", width);
 		}, expBuilder);
 		
 		//add exec specs to the experiment and return

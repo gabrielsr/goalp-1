@@ -23,7 +23,7 @@ public class RandomPrismRepositoryUtil {
 			sb.append(str);
 		}
 		if(sb.length()>0){
-			sb.toString();
+			return sb.toString();
 		}
 		return null;
 	}

@@ -1,4 +1,4 @@
-package goalp.exputil;
+package goalp.evaluation.plans;
 
 import java.util.List;
 import java.util.function.Function;
@@ -12,9 +12,11 @@ import com.panayotis.gnuplot.dataset.Point;
 
 import goalp.Conf;
 import goalp.Conf.Keys;
-import goalp.evaluation.goals.IReportResult;
 import goalp.evaluation.model.Execution;
 import goalp.evaluation.model.Experiment;
+import goalp.exputil.DataSetBuilder;
+import goalp.exputil.EvalUtil;
+import goalp.exputil.PlotBuilder;
 
 /**
  * Context Requirement: gnuplot installed
@@ -45,6 +47,22 @@ public class ReportEachResultToEpsGraph {// implements IReportResult {
 					return new Point<Number>(factorValue, nanoToMiliseconds(response));
 				});
 
+			} else if (factors.size() == 2) {
+				
+				String factor1 = factors.get(0);
+				String factor2 = factors.get(2);
+				String responseVariable = ((Experiment) exp).getEvaluation().getResponseVariable();
+				log.info("ploting {},{} = {}", factor1, factor2, responseVariable);
+
+				// create graph (factor vs result) for the experiment execution
+				// list
+				createGraphTwoFactor(exp, (exec) -> {
+					Number factorXValue = exec.getEvaluation().getFactors().get(0);
+					Number factorYValue = exec.getEvaluation().getFactors().get(1);
+					Number response = exec.getEvaluation().getResponseValue();
+					return new Point<Number>(factorXValue, factorYValue, nanoToMiliseconds(response));
+				});
+				
 			} else if (factors.size() > 1) {
 				throw new IllegalStateException("multi factors experiment report was requested but implemented");
 			}
@@ -68,6 +86,28 @@ public class ReportEachResultToEpsGraph {// implements IReportResult {
 			.asEps(Conf.get(Keys.RESULT_FILE) + EvalUtil.getOneFactor(exp) + ".eps")
 			.xLabel(EvalUtil.getOneFactor(exp))
 			.yLabel(EvalUtil.getResponseVariable(exp))
+			.addDataSet(dsbuilder.build())
+			.plot();
+
+	}
+
+	private void createGraphTwoFactor(Experiment exp, Function<Execution, Point<Number>> mapper) {
+
+		// create dataset
+		DataSetBuilder<Number> dsbuilder = DataSetBuilder.create();
+
+		for (Execution exec : exp.getExecutions()) {
+
+			dsbuilder.addPoint(mapper.apply(exec));
+		}
+		// dsbuilder.fromNanoSecondsToHumanReadable(1, TimeUnit.NANOSECONDS);
+
+		// create graph
+		PlotBuilder.create()
+			.asEps(Conf.get(Keys.RESULT_FILE) + EvalUtil.getFactor(exp, 0) + "_" + EvalUtil.getFactor(exp, 0) + ".eps")
+			.xLabel(EvalUtil.getFactor(exp, 0))
+			.yLabel(EvalUtil.getFactor(exp, 1))
+			.zLabel(EvalUtil.getResponseVariable(exp))
 			.addDataSet(dsbuilder.build())
 			.plot();
 

@@ -5,46 +5,54 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import goalp.evaluation.goals.ICreateExperiments;
 import goalp.evaluation.model.ExecSpec;
 import goalp.evaluation.model.ExecSpecBuilder;
 import goalp.evaluation.model.Experiment;
 import goalp.evaluation.model.ExperimentBuilder;
-import goalp.exputil.RandomPrismRepositoryUtil;
 
 //@Named
-public class CreateExperimentsToEvaluateScalabilityOverNumberOfGoalsAndContexts implements ICreateExperiments {
+public class CreateExperimentsToEvaluateScalabilityOverNumberOfGoalsAndContexts {// implements ICreateExperiments {
 
-	@Override
+	public class Params { 
+		int depth = 2;
+		int numOfDependencies = 5;
+		int contextSpaceSize = 20;
+		int contextVariabilityP = 5;
+		int contextVariabilityK = 2;
+		String[] contextSpace;
+	}
+	
+	
+	//@Override
 	public List<Experiment> exec() {
 		List<Experiment> experiments = new ArrayList<>();
-		int p = 5;
-		int k = 2;
-		
+
 		for(int i =5; i<=20; i+=5){ //TODO i<=20
-			String[] contextSpace = getContextSpace(i);
-			experiments.add(createContextExperiment(contextSpace, p, k));
+			Params params = new Params();
+			params.contextSpace = getContextSpace(i);
+			experiments.add(createContextExperiment(params));
 		}
 		
 		return experiments;
 	}
 
-	private Experiment createContextExperiment(String[] contexts, int p, int k) {
+	private Experiment createContextExperiment(Params params) {
 		final String factorLavel = "numberOfGoals";
-		List<String> agentContext = RandomPrismRepositoryUtil.listOfPElements(contexts, p);
+		//List<String> agentContext = RandomPrismRepositoryUtil.listOfPElements(params.contextSpace, p);
+		List<String> agentContext = Arrays.asList(params.contextSpace);
 		
 		ExperimentBuilder expBuilder = ExperimentBuilder
 				.create()
-				.setName(contexts.length+ "contexts [p="+p+", k="+k+"]")
-				.setFactor(factorLavel)
+				.setName(agentContext.size() + "contexts [p="+params.contextVariabilityP+", k="+params.contextVariabilityK+"]")
+				.addFactor(factorLavel)
 				.setResponseVariable("execution_time")
 				.putRepoSpec("depth", 3)
 				.putRepoSpec("numOfDependencies", 7)
 				.putRepoSpec("numberOfTrees", 30)
-				.putRepoSpec("contextSpace", Arrays.asList(contexts))
+				.putRepoSpec("contextSpace", Arrays.asList(params.contextSpace))
 				.putRepoSpec("agentContext", agentContext)
-				.putRepoSpec("contextVariabilityP",p)
-				.putRepoSpec("contextVariabilityK",k);
+				.putRepoSpec("contextVariabilityP",params.contextVariabilityP)
+				.putRepoSpec("contextVariabilityK",params.contextVariabilityK);
 		
 		ExecSpec model = ExecSpecBuilder.create()
 				.put("type", 0)
@@ -53,7 +61,7 @@ public class CreateExperimentsToEvaluateScalabilityOverNumberOfGoalsAndContexts 
 		
 		//create execution specification from a range of k combination, from 0
 		addExecSpecsWithInRangeSetter(model, 0, 16, 2, (spec, contextsInEachArtifact) ->{
-			spec.getRepoSpec().put(factorLavel, contextsInEachArtifact);
+			spec.put(factorLavel, contextsInEachArtifact);
 		}, expBuilder);
 		
 		return expBuilder.build();

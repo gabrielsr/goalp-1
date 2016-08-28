@@ -1,6 +1,8 @@
 package goalp.evaluation.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import goalp.systems.Agent;
 import goalp.systems.IDeploymentPlanner;
@@ -10,7 +12,7 @@ public class ExperimentSetup {
 
 	private IRepository repository;
 	
-	private List<String> rootGoals;
+	private Map<Integer, List<String>> rootGoals;
 	
 	private IDeploymentPlanner planner;
 	
@@ -24,11 +26,19 @@ public class ExperimentSetup {
 		this.repository = repository;
 	}
 
+	public List<String> getRootGoals(Integer variability) {
+		return rootGoals.get(variability);
+	}
+	
 	public List<String> getRootGoals() {
-		return rootGoals;
+		List<String> allRootGoals = new ArrayList<>();
+		rootGoals.values().forEach(list ->{
+			allRootGoals.addAll(list);
+		});
+		return allRootGoals;
 	}
 
-	public void setRootGoals(List<String> rootGoals) {
+	public void setRootGoalsMap(Map<Integer, List<String>> rootGoals) {
 		this.rootGoals = rootGoals;
 	}
 

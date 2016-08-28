@@ -3,7 +3,9 @@ package goalp.evaluation.plans;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import goalp.evaluation.model.ExperimentSetup;
@@ -17,7 +19,7 @@ import goalp.systems.RepositoryBuilder;
 public class PrismRepositoryBuilder {
 	
 	private IRepository repository;
-	private List<String> rootGoals;
+	private Map<Integer, List<String>> rootGaoalsMap;
 	
 	protected PrismRepositoryBuilder(){
 		
@@ -33,7 +35,7 @@ public class PrismRepositoryBuilder {
 	}
 
 	public PrismRepositoryBuilder setSetupRootGoals(ExperimentSetup setup){
-		setup.setRootGoals(rootGoals);
+		setup.setRootGoalsMap(rootGaoalsMap);
 		return this;
 	}
 	
@@ -48,18 +50,26 @@ public class PrismRepositoryBuilder {
 		
 		RepositoryBuilder builder = RepositoryBuilder.create();
 		
-		List<String> rootGoals = new ArrayList<String>();
+		int[] variabilityRange = (int[]) repoSpec.getRepoSpec().get("variabilityRange");
+
+		Map<Integer, List<String>> rootGaoalsMap = new HashMap<>();
+
 		int numberOfTrees = repoSpec.getInteger("numberOfTrees");
-		
-		//crate a forest of i trees
-		for(int i = 0; i<numberOfTrees; i++){
-			String rootGoal = createArtifactChain(builder,
-					numOfDependencies, depth, i, contextSpace, numOfContextConditionsPerGoal, numOfContextConditionsPerArtifact);
-			rootGoals.add(rootGoal);
+
+		for(int variability = variabilityRange[0]; variability <= variabilityRange[1]; variability++){
+			List<String> rootGoals = new ArrayList<String>();
+
+			//crate a forest of n trees
+			for(int j = 0; j < numberOfTrees; j++){
+				String rootGoal = createArtifactChain(builder,
+						numOfDependencies, depth, j, contextSpace, numOfContextConditionsPerGoal, numOfContextConditionsPerArtifact);
+				rootGoals.add(rootGoal);
+			}
+			rootGaoalsMap.put(variability, rootGoals);
 		}
 		
 		this.repository = builder.build();
-		this.rootGoals = rootGoals;
+		this.rootGaoalsMap = rootGaoalsMap;
 		
 		return this;
 	}
@@ -86,7 +96,7 @@ public class PrismRepositoryBuilder {
 				Artifact leaf = ArtifactBuilder.create()
 						.identification(artifactLabel)
 						.provides(artifactProvide)
-						.condition(contextLabel) // generated the conditions after the selection
+						.conditions(contextSelection) // generated the conditions after the selection
 						.build();
 				builder.addArtifact(leaf);
 			}
