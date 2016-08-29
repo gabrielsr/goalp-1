@@ -39,8 +39,11 @@ public class ReportAllExperimentsResultsToOne3dEpsGraph implements IReportResult
 		PlotBuilder plotBuilder = PlotBuilder.create()
 			.asEps(Conf.get(Keys.RESULT_FILE) + EvalUtil.getFactor(experiments.get(0),0) + ".eps")
 			.xLabel(EvalUtil.getFactor(experiments.get(0), 0))
+			.xReverse()
 			.yLabel(EvalUtil.getFactor(experiments.get(0), 1))
-			.zLabel(EvalUtil.getResponseVariable(experiments.get(0)));
+			.zLabel(EvalUtil.getResponseVariable(experiments.get(0)))
+			.zTicslevel(0)
+			.xyplane(0);
 
 		experiments.forEach((exp) -> {
 			List<String> factors = exp.getEvaluation().getFactorList();
@@ -70,7 +73,7 @@ public class ReportAllExperimentsResultsToOne3dEpsGraph implements IReportResult
 				String responseVariable = ((Experiment) exp).getEvaluation().getResponseVariable();
 				//log.info("ploting {},{} vs {}", factorOne, factorTwo, responseVariable);
 
-				// create graph (factor vs result) for the experiment execution
+				// create graph (factor vs r)esult) for the experiment execution
 				// list
 				for(List<Execution> execs: contextExecutions.values()){
 					addDataSet(exp, execs, plotBuilder, (exec) -> {
