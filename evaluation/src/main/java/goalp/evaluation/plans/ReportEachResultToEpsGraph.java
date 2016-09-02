@@ -86,7 +86,7 @@ public class ReportEachResultToEpsGraph {// implements IReportResult {
 			.asEps(Conf.get(Keys.RESULT_FILE) + EvalUtil.getOneFactor(exp) + ".eps")
 			.xLabel(EvalUtil.getOneFactor(exp))
 			.yLabel(EvalUtil.getResponseVariable(exp))
-			.addDataSet(dsbuilder.build())
+			.addDataSet(dsbuilder.buildDataSetPlot())
 			.plot();
 
 	}
@@ -108,7 +108,7 @@ public class ReportEachResultToEpsGraph {// implements IReportResult {
 			.xLabel(EvalUtil.getFactor(exp, 0))
 			.yLabel(EvalUtil.getFactor(exp, 1))
 			.zLabel(EvalUtil.getResponseVariable(exp))
-			.addDataSet(dsbuilder.build())
+			.addDataSet(dsbuilder.buildDataSetPlot())
 			.plot();
 
 	}

@@ -68,8 +68,8 @@ public class CreateExperimentsToEvaluateScalabilityOverNumberOfGoalsAndContexts3
 		
 		//create execution specification from a range of k combination, from 0
 		addExecSpecsWithTwoInRangeSetter(model, 
-				0, 25, 5, //goals
-				1, 10, 2, //variability
+				0, 100, 1, //goals
+				1, 10, 1, //variability
 				(spec, rangeValues) ->{
 			spec.put("numberOfGoals", rangeValues[0]);
 			spec.put("variability", rangeValues[1]);

@@ -4,10 +4,6 @@ import com.panayotis.gnuplot.JavaPlot;
 import com.panayotis.gnuplot.dataset.Point;
 import com.panayotis.gnuplot.dataset.PointDataSet;
 import com.panayotis.gnuplot.plot.DataSetPlot;
-import com.panayotis.gnuplot.style.FillStyle;
-import com.panayotis.gnuplot.style.FillStyle.Fill;
-import com.panayotis.gnuplot.style.PlotStyle;
-import com.panayotis.gnuplot.style.Style;
 import com.panayotis.gnuplot.terminal.PostscriptTerminal;
 
 public class PlotBuilder {
@@ -40,9 +36,44 @@ public class PlotBuilder {
         return this;
 	}
 	
-	public PlotBuilder xReverse(){
-        p.getAxis("x").set( p.getAxis("x").getName() + "range [] reverse");
-        return this;
+	public PlotBuilder xRange(Double begin, Double end, boolean reverse){
+		p.getAxis("x").set( p.getAxis("x").getName() + rangePattern(begin, end, reverse));
+		return this;
+	}
+	
+	public PlotBuilder yRange(Double begin, Double end, boolean reverse){
+		p.getAxis("y").set( p.getAxis("y").getName() + rangePattern(begin, end, reverse));
+		return this;
+	}
+	
+	public PlotBuilder zRange(Double begin, Double end, boolean reverse){
+		p.getAxis("z").set( p.getAxis("z").getName() + rangePattern(begin, end, reverse));
+		return this;
+	}
+	
+	public String rangePattern(Double begin, Double end, boolean reverse){
+		String beginPattern, endPattern, reversePattern;
+		if(begin.isNaN()){
+			beginPattern = "";
+		}else{
+			beginPattern = begin.toString();
+		}
+		
+		if(end.isNaN()){
+			endPattern = "";
+		}else{
+			endPattern = end.toString();
+		}
+
+		if(reverse){
+			reversePattern = "reverse";
+		}else{
+			reversePattern = "";
+		}
+		
+        return "range ["+
+        beginPattern + ":" +
+        endPattern+ "] "+ reversePattern;
 	}
 	
 	public PlotBuilder yLabel(String label){
@@ -87,14 +118,6 @@ public class PlotBuilder {
 	}
 	
 	public PlotBuilder addDataSet(DataSetPlot dataSet) {
-		PlotStyle ps = new PlotStyle();
-		ps.setStyle(Style.PM3D);
-		
-		FillStyle fs = new FillStyle();
-		fs.setStyle(Fill.SOLID);
-		ps.setFill(fs);
-		
-		//dataSet.setPlotStyle(ps);
 		p.addPlot(dataSet);
 		return this;
 	}

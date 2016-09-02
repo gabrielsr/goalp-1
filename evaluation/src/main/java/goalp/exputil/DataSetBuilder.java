@@ -14,15 +14,23 @@ import com.panayotis.gnuplot.style.Style;
 public class DataSetBuilder<N extends Number> {
 	
 	private PointDataSet<N> dataset;
+	private PlotStyle ps;
 	
 	private String yUnit;
 	
 	private DataSetBuilder(){
 		this.dataset = new PointDataSet<N>();
+		this.ps = new PlotStyle();
 	}
 	
 	public static DataSetBuilder<Number> create(){
 		return new DataSetBuilder<Number>();
+	}
+	
+	public DataSetBuilder<N> setStyle(Style style, Fill fill){
+		ps.setStyle(style);
+		ps.setFill(new FillStyle(fill));
+		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -95,15 +103,27 @@ public class DataSetBuilder<N extends Number> {
 		this.dataset = (PointDataSet<N>) newDataSet;
 	}
 
-	public DataSetPlot  build(){
+	/**
+	 * Build dataset plot with style
+	 * @return
+	 */
+	public DataSetPlot  buildDataSetPlot(){
 		PointDataSet<N> built = this.dataset;
 		DataSetPlot dsplot = new DataSetPlot(built);
-		PlotStyle ps = new PlotStyle();
-		ps.setStyle(Style.STEPS);
-		ps.setFill(new FillStyle(Fill.SOLID));
-		dsplot.setPlotStyle(new PlotStyle());
+		
 		dsplot.setPlotStyle(ps);
+		
 		this.dataset = null;
 		return dsplot;
+	}
+	
+	/**
+	 *  Build dataset of point (no style)
+	 * @return
+	 */
+	public PointDataSet<N>  buildPointDataSet(){
+		PointDataSet<N> built = this.dataset;
+		this.dataset = null;
+		return built;
 	}
 }

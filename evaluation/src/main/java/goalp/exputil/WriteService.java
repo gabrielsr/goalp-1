@@ -15,10 +15,13 @@ import goalp.systems.DeploymentPlan;
 
 public class WriteService {
 
+	public void it(ExecResult result){
+		it(result, Conf.get(Keys.DEPL_PLAN_FILE));
+	}
 	
-	public void it(ExecResult result) {
+	public void it(ExecResult result,  String pathStr) {
 		
-		Path path = Paths.get( Conf.get(Keys.DEPL_PLAN_FILE));
+		Path path = Paths.get(pathStr);
 		
 		try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 			write(result, writer);

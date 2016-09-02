@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.slf4j.Logger;
 
@@ -12,7 +11,6 @@ import com.panayotis.gnuplot.dataset.Point;
 
 import goalp.Conf;
 import goalp.Conf.Keys;
-import goalp.evaluation.goals.IReportResult;
 import goalp.evaluation.model.Execution;
 import goalp.evaluation.model.Experiment;
 import goalp.exputil.DataSetBuilder;
@@ -75,7 +73,7 @@ public class ReportAllExperimentsResultsToOneEpsGraph { // implements IReportRes
 		}
 
 		// add data set
-		plotBuilder.addDataSet(dsbuilder.build());
+		plotBuilder.addDataSet(dsbuilder.buildDataSetPlot());
 	}
 
 	private Double nanoToMiliseconds(Number nanoSecs) {

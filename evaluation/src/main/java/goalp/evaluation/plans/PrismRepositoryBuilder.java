@@ -62,7 +62,7 @@ public class PrismRepositoryBuilder {
 			//crate a forest of n trees
 			for(int j = 0; j < numberOfTrees; j++){
 				String rootGoal = createArtifactChain(builder,
-						numOfDependencies, depth, j, contextSpace, numOfContextConditionsPerGoal, numOfContextConditionsPerArtifact);
+						numOfDependencies, depth, j, variability, contextSpace, numOfContextConditionsPerGoal, numOfContextConditionsPerArtifact);
 				rootGoals.add(rootGoal);
 			}
 			rootGaoalsMap.put(variability, rootGoals);
@@ -74,7 +74,7 @@ public class PrismRepositoryBuilder {
 		return this;
 	}
 	
-	private String createArtifactChain(RepositoryBuilder builder, int numOfDependencies, int depth, int treeId, 			
+	private String createArtifactChain(RepositoryBuilder builder, int numOfDependencies, int depth, int treeId, int variability,			
 			List<String> contexts,  int numOfContextConditionsPerGoal,  int numOfContextConditionsPerArtifact){
 		if(depth==0){
 			
@@ -87,7 +87,8 @@ public class PrismRepositoryBuilder {
 			String artifactProvide = "br.unb.tree" + treeId + ":goalLeaf" + randonLabel() + ":0.0.1";
 			
 			Deque<Deque<String>> combinations = RandomPrismRepositoryUtil.getCombinations(contextSpace, numOfContextConditionsPerArtifact);
-			for(Deque<String> contextSelection:combinations){
+			for(int i = 0; i<variability; i++){
+				Deque<String> contextSelection = combinations.pop();
 				//leaf artifact, do not depends on any other
 				String contextLabel  = RandomPrismRepositoryUtil.concat(contextSelection);
 				String artifactLabel = "br.unb.tree" + treeId + "artifactLeaf" + randonLabel() + contextLabel + ":0.0.1";
@@ -110,7 +111,7 @@ public class PrismRepositoryBuilder {
 			//create 'width number' artifacts  
 			for(int i = 0; i < numOfDependencies; i++){
 				//create 'depth deep' artifact chains
-				String provide = createArtifactChain(builder, numOfDependencies, depth -1, treeId, contexts, numOfContextConditionsPerGoal, numOfContextConditionsPerArtifact);
+				String provide = createArtifactChain(builder, numOfDependencies, depth -1, treeId, variability, contexts, numOfContextConditionsPerGoal, numOfContextConditionsPerArtifact);
 				branchsProvidedGoal[i] = provide;
 			}
 			
