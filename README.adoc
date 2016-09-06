@@ -1,7 +1,5 @@
 # goalp
 
-[![Build Status](https://travis-ci.org/lesunb/goalp.svg?branch=master)](https://travis-ci.org/lesunb/goalp)
-
 Goal Oriented Platform
 
 image:https://travis-ci.org/lesunb/goalp.svg?branch=master["Build Status", link="https://travis-ci.org/lesunb/goalp"]
