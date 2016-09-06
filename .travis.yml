@@ -2,7 +2,7 @@ language: java
 jdk:
 - oraclejdk8
 after_success:
-  - mvn clean cobertura:cobertura coveralls:report javadoc:jar
+  - mvn clean jacoco:report coveralls:report javadoc:jar
   - test "${TRAVIS_PULL_REQUEST}" == "false" && test “${TRAVIS_JDK_VERSION}” == “oraclejdk7″ && test "${TRAVIS_TAG}" != "" && mvn deploy --settings travis/settings.xml
 
 branches:
