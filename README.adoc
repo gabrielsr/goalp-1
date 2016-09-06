@@ -3,7 +3,7 @@
 image:https://travis-ci.org/lesunb/goalp.svg?branch=master["Build Status", link="https://travis-ci.org/lesunb/goalp"]
 image:https://coveralls.io/repos/github/lesunb/goalp/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/repos/github/lesunb/goalp?branch=master"]
 image:https://api.bintray.com/packages/lesunb/goalp/goalp/images/download.svg[link="https://bintray.com/lesunb/goalp/goalp/_latestVersion"]
-
+image:https://codeclimate.com/github/lesunb/goalp/badges/issue_count.svg["Issues", link="https://codeclimate.com/github/lesunb/goalp"]
 
 Goal Oriented Platform
 
