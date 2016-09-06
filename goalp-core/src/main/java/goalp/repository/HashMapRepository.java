@@ -35,7 +35,7 @@ public class HashMapRepository implements IRepository {
 	}
 	
 	private void put(Goal goal, Artifact artifact) {
-		Set<Artifact> list = getKnownArtifacts().get(goal);
+		Set<Artifact> list = getKnownArtifacts().get(goal.getIdentication());
 		if (list == null) {
 			list = new HashSet<>();
 			getKnownArtifacts().put(goal.getIdentication(), list);

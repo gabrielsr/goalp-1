@@ -1,0 +1,71 @@
+# goalp
+
+Goal Oriented Platform
+
+image:https://travis-ci.org/lesunb/goalp.svg?branch=master["Build Status", link="https://travis-ci.org/lesunb/goalp"]
+
+image:http://img.shields.io/coveralls/lesunb/goalp/master.svg["Coverage Status", link="https://coveralls.io/r/lesunb/goalp?branch=master"]
+
+image::https://api.bintray.com/packages/lesunb/goalp/goalp/images/download.svg[link="https://bintray.com/lesunb/goalp/goalp/_latestVersion"]
+
+
+Intro 
+=====
+
+goal-core :: The core modeule implements the deployment planning.
+evaluation :: Evaluation module implements scalability evaluation
+
+
+
+= Setup
+
+== JDK8 the compiler and virtual machine
+
+Install JDK8: 
+	http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+	
+== Eclipse (Mars) the IDE
+	http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/mars2
+
+	
+== Maven: Dependency Manager and Build	
+
+It should come with Eclipse, don't worry.
+
+
+= Building and Running GOALP
+
+ * clone the repo: 
+  $ git clone https://github.com/lesunb/goalp/ 
+
+== Importing project into Eclipse
+
+ * Open Eclipse
+ * File > Import > Existing Project
+ * Find the folder where you cloned goalp project
+ * Accept the defaults
+
+== Run Tests into Eclipse
+
+ * Right click in the goalp-core project
+ * Run As > JUnit Tests
+
+== Run Scalability Evaluation
+
+ * Right click in the evaluation project
+ * Run As > Java Application
+ * Choose EvaluationMain class
+ * The evaluation experiment should init and you should see logs into the console of Eclipse.
+ * Final result should be created at evaluation > result
+ * Evaluation param can be changed at the class
+ 
+goalp.evaluation.plans.CreateExperimentsToEvaluateScalabilityOverNumberOfGoalsAndContexts3d
+
+
+== Bugs? Doubts?
+
+* Look for existing issues or create a new one describing your problem or doubt
+* Contact the author by email
+	* gabrielsr@gmail.com
+
