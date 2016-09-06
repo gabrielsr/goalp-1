@@ -1,3 +1,9 @@
 language: java
 jdk:
 - oraclejdk8
+deploy:
+  provider: bintray
+  file: "Path to a descriptor file, containing information for the Bintray upload"
+  user: gabrielsr
+  key: f1d75e54f69236733f8587fdffbffda2b9a044c1
+  dry-run: true
