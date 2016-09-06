@@ -1,8 +1,8 @@
 # goalp
 
 image:https://travis-ci.org/lesunb/goalp.svg?branch=master["Build Status", link="https://travis-ci.org/lesunb/goalp"]
+image:https://coveralls.io/repos/github/lesunb/goalp/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/repos/github/lesunb/goalp?branch=master"]
 
-image:https://codeship.com/projects/172303/status?branch=master
 image:http://img.shields.io/coveralls/lesunb/goalp/master.svg["Coverage Status", link="https://coveralls.io/r/lesunb/goalp?branch=master"]
 image::https://api.bintray.com/packages/lesunb/goalp/goalp/images/download.svg[link="https://bintray.com/lesunb/goalp/goalp/_latestVersion"]
 
