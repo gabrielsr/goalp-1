@@ -19,3 +19,6 @@ env:
 addons:
     code_climate:
         repo_token: c0ce7a89c2ccea4f4d91cd1eb4e18782e61c0842b89a0e9546fd216f3299afe4
+
+notifications:
+  slack: goalp:YUtHasFGJ1tKAfFAwMaAK00e
