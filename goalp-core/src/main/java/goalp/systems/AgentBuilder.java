@@ -1,5 +1,6 @@
 package goalp.systems;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import goalp.model.resources.Display;
@@ -34,6 +35,11 @@ public class AgentBuilder {
 	}
 	public AgentBuilder addContexts(Collection<String> contexts) {
 		this.agent.getContext().addAll(contexts);
+		return this;
+	}
+
+	public AgentBuilder addContexts(String... contexts) {
+		this.agent.getContext().addAll(Arrays.asList(contexts));
 		return this;
 	}
 }

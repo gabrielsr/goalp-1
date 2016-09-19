@@ -38,6 +38,11 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 			e.printStackTrace();
 			result.putFailure("Unespected Failure: " + e.toString() + "," + e.getMessage());
 		}
+		if(!result.isSuccessfull()){
+			logger.debug("failures in the deployment planning");
+			logger.debug(result.getFailures());
+		}
+		
 		return result;
 	}
 	
@@ -66,13 +71,13 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 		}
 		
 		List<DeploymentPlanningResult> alternativePlans = new ArrayList<>();
+		List<String> failures = new ArrayList<>();
 		for(Artifact candidate: candidateProviders) {
-			
 			if(!checkContextConditions(agent, candidate)){
 				if(logger.isDebugEnabled()){
 				    logger.debug("context conditions verification failure for " + candidate.getIdentification());
 				}
-				break;
+				continue;
 			}else{
 				//check dependencies
 				//logs a debug message
@@ -90,6 +95,7 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 						depencyResult.incorporate(oneDepencyResult.getPlan());
 					}else {
 						allDependenciesSatisfied = false;
+						failures.add("can not find for actual context a provider for " + dependency.getIdentication());
 						break;
 					}
 				}
@@ -99,7 +105,8 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 			}
 		}
 		if(alternativePlans.isEmpty()){
-			result.putFailure("no deployment plan that matches context conditions for " + goal.getIdentication());
+			result.putFailures(failures);
+			result.putFailure("can not achieve " + goal.getIdentication());
 			return;
 		}
 		

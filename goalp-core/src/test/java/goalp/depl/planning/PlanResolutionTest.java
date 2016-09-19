@@ -28,19 +28,19 @@ public class PlanResolutionTest {
 	public void setUp() {
 		
 		repo = RepositoryBuilder.create()
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:greater:0.0.1")
 				.provides("br.unb.greet")
 				.condition("display_capability")
 				.build())
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:alarm:0.0.1")
 				.provides("br.unb.alarm")
 				.condition("sound_capability")
 				.build())
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:display_my_position:0.0.1")
 				.provides("br.unb.display_my_position")
@@ -48,12 +48,12 @@ public class PlanResolutionTest {
 				.dependsOn("br.unb:getPositionByGPS:0.0.1")
 				.dependsOn("br.unb:mapView:0.0.1")
 				.build())
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:getPositionByGPS:0.0.1")
 				.condition("gps_capability")
 				.build())
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:mapView:0.0.1")
 				.condition("display_capability")
@@ -114,13 +114,13 @@ public class PlanResolutionTest {
 	public void artifactSelectionWithCyclicDependencieTest() throws PlanSelectionException {
 	
 		IRepository repoWithCycle = RepositoryBuilder.create()
-				.addArtifact(
+				.add(
 					ArtifactBuilder.create()
 					.identification("br.unb:goalA:0.0.1")
 					.provides("br.unb.goalA")
 					.dependsOn("br.unb.goalB")
 					.build())
-				.addArtifact(
+				.add(
 					ArtifactBuilder.create()
 					.identification("br.unb:goalB:0.0.1")
 					.provides("br.unb.goalB")
