@@ -7,7 +7,9 @@
 
 	<modules>
 		<module>goalp-core</module>
-		<module>evaluation</module>
+		<module>evaluation-commons</module>
+		<module>scalability-evaluation</module>
+		<module>filling-station-case-study</module>
 	</modules>
 
 	<name>goalp-parent</name>
