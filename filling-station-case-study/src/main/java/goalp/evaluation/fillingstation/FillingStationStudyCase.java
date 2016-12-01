@@ -33,7 +33,7 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 		 * Study case scenarios. Each one define a different set of contexts. 
 		 * For each one the deployment will be planned
 		 */
-		screnario("simple phone with ODB2", (agentBuilder)->{
+		scenario("simple phone with ODB2", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"antenna_triangulation", 
 				"protocol_get_fuel_level_and_mileage",
@@ -41,7 +41,7 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"sound");
 		});
 		
-		screnario("smartphone with Bluethoth ODB2", (agentBuilder)->{
+		scenario("smartphone with Bluethoth ODB2", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability",
 				"protocol_on_board_computer_get_distante_to_empty",
@@ -49,14 +49,14 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"synthesized_voice");
 		});
 		
-		screnario("smartphone without car connection", (agentBuilder)->{
+		scenario("smartphone without car connection", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability", 
 				"internet_connection",
 				"synthesized_voice");
 		});
 	
-		screnario("dash computer with gps and no nav sys integration", (agentBuilder)->{
+		scenario("dash computer with gps and no nav sys integration", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability", 
 				"protocol_on_board_computer_get_distante_to_empty",
@@ -64,7 +64,7 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"visible_graphical_interface");
 		});
 		
-		screnario("dash computer, connected, with gps and nav sys integration", (agentBuilder)->{
+		scenario("dash computer, connected, with gps and nav sys integration", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability", 
 				"protocol_on_board_computer_get_distante_to_empty",

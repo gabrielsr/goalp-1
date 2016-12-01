@@ -50,7 +50,7 @@ public abstract class AbstractStudyCase {
 		caseStudy();
 	}
 	
-	public void screnario(String experimentName, Consumer<AgentBuilder> exec) {
+	public void scenario(String experimentName, Consumer<AgentBuilder> exec) {
 	
 		log.info("Executing experiment {}", experimentName); 
 		//run execution

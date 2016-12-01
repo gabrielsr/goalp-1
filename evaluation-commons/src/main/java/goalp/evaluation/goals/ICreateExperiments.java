@@ -6,5 +6,5 @@ import goalp.evaluation.model.Experiment;
 
 public interface ICreateExperiments {
 
-	public List<? extends Experiment> exec();
+	public List<Experiment> exec();
 }

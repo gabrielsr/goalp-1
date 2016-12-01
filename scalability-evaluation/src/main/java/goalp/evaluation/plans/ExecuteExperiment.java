@@ -110,9 +110,14 @@ public class ExecuteExperiment implements IExecuteExperiments {
 
 	private ExecResult execute(Execution exec) {
 		
-		
-		int numberOfGoals = exec.getSpecification().getInteger("numberOfGoals");
-		int variability = exec.getSpecification().getInteger("variability");
+		int numberOfGoals=0, variability = 0;
+		try{
+			numberOfGoals = exec.getSpecification().getInteger("numberOfGoals");
+			variability = exec.getSpecification().getInteger("variability");
+		}catch(NullPointerException e){
+			throw new IllegalStateException("can't get number of goals or variability");
+		}
+
 		List<String> repositoryGoals = expSetup.getRootGoals(variability);
 		
 		List<String> execGoals = new ArrayList<>(); 
