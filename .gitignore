@@ -8,5 +8,4 @@ logs/
 .DS_Store
 .checkstyle
 *.bak
-README.md
 evaluation/result/
