@@ -6,10 +6,17 @@
 In a Ubuntu 16.04, Fresh Virtual Machine, local or in the cloud, paste the following line in the terminal:
 
 ``` bash
-sudo wget https://raw.githubusercontent.com/lesunb/goalp/master/setup/ubuntu1604lts.sh -v -O install.sh; chmod +x install.sh; ./install.sh; rm install.sh
+sudo wget https://raw.githubusercontent.com/lesunb/goalp/master/setup/ubuntu1604lts.sh -v -O /tmp/install-goalp-scal.sh; sudo chmod +x /tmp/install-goalp-scal.sh; /tmp/install-goalp-scal.sh
 
 ```
-The dependencies will be download, the experiment will be executed, and after a couple of hours you get the result at the goalp/scalability-evaluation/result folder.
+The dependencies will be download, the experiment will be executed.
+Then, you can see the log of the execution with:
+
+``` bash
+ tail -f ~/scalability-evaluation-log
+
+```
+After a couple of hours you get the result at the goalp/scalability-evaluation/result folder.
 
 A file like like this:
 
