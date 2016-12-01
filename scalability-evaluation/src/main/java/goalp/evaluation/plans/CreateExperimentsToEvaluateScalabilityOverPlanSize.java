@@ -19,6 +19,7 @@ public class CreateExperimentsToEvaluateScalabilityOverPlanSize extends Abstract
 				.setName(expName)
 				.setResponseVariable("Time (ms)")
 				//experiment evaluated factors
+				.addFactor("Variability")
 				.addFactor("Plan size"))
 				// params for creating the repository
 				.putRepoSpec("depth", 2)
