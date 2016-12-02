@@ -14,43 +14,42 @@ import goalp.evaluation.strategy.EvaluateStrategy;
 
 public class ScalabilityExperiments {
 
-	
-	
 	@Test
 	public void evaluateScalabilityOverPlanSize() {
 		System.out.println("Initializing goalp planning evaluation ... ");
-		
-		//get experiments
+
+		// get experiments
 		@SuppressWarnings("unchecked")
-		List<Experiment> experiments = (List<Experiment>) getExperiments(CreateExperimentsToEvaluateScalabilityOverPlanSize.class).exec();
+		List<Experiment> experiments = (List<Experiment>) getExperiments(
+				CreateExperimentsToEvaluateScalabilityOverPlanSize.class).exec();
 		exec(experiments);
 	}
-	
+
 	@Test
 	public void evaluateScalabilityVariabilityLevel() {
 		System.out.println("Initializing goalp planning evaluation ... ");
-		
-		//get experiments
+
+		// get experiments
 		@SuppressWarnings("unchecked")
-		List<Experiment> experiments = (List<Experiment>) getExperiments(CreateExperimentsToEvaluateScalabilityOverVariabilityLevel.class).exec();
+		List<Experiment> experiments = (List<Experiment>) getExperiments(
+				CreateExperimentsToEvaluateScalabilityOverVariabilityLevel.class).exec();
 		exec(experiments);
 	}
-	
-	
-	public void exec(List<Experiment> experiments){
-		//intialize a CDI container
+
+	public void exec(List<Experiment> experiments) {
+		// intialize a CDI container
 		Weld weld = new Weld();
 		WeldContainer container = weld.initialize();
-		//exec evaluation strategy
+		// exec evaluation strategy
 		container.select(EvaluateStrategy.class).get().exec(experiments);
-		
-		//shutdown container
+
+		// shutdown container
 		container.shutdown();
 
 		System.out.println("Goalp planning evaluation has come a normal end. Good bye");
 	}
-	
-	public ICreateExperiments getExperiments(Class<? extends ICreateExperiments> classCreator){
+
+	public ICreateExperiments getExperiments(Class<? extends ICreateExperiments> classCreator) {
 		try {
 			return (ICreateExperiments) classCreator.newInstance();
 		} catch (Exception e) {

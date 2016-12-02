@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.jboss.weld.exceptions.IllegalStateException;
 import org.slf4j.Logger;
 
 import goalp.exputil.ExperimentTimer;
 
-@Named
+@Singleton
+@Default
 public class ExperimentTimerImpl implements ExperimentTimer {
 
 	@Inject
