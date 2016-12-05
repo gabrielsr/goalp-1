@@ -29,11 +29,17 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 	
 
 	public void caseStudy() {
+		for(int i =0; i<100; i++){
+			doCaseStudy();
+		}
+	}
+	
+	public void doCaseStudy() {
 		/* 
 		 * Study case scenarios. Each one define a different set of contexts. 
 		 * For each one the deployment will be planned
 		 */
-		scenario("simple phone with ODB2", (agentBuilder)->{
+		scenario("s1", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"antenna_triangulation", 
 				"protocol_get_fuel_level_and_mileage",
@@ -41,7 +47,7 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"sound");
 		});
 		
-		scenario("smartphone with Bluethoth ODB2", (agentBuilder)->{
+		scenario("s2", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability",
 				"protocol_on_board_computer_get_distante_to_empty",
@@ -49,14 +55,14 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"synthesized_voice");
 		});
 		
-		scenario("smartphone without car connection", (agentBuilder)->{
+		scenario("s3", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability", 
 				"internet_connection",
 				"synthesized_voice");
 		});
 	
-		scenario("dash computer with gps and no nav sys integration", (agentBuilder)->{
+		scenario("s4", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability", 
 				"protocol_on_board_computer_get_distante_to_empty",
@@ -64,7 +70,7 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"visible_graphical_interface");
 		});
 		
-		scenario("dash computer, connected, with gps and nav sys integration", (agentBuilder)->{
+		scenario("s5", (agentBuilder)->{
 			agentBuilder.addContexts(
 				"gps_capability", 
 				"protocol_on_board_computer_get_distante_to_empty",
@@ -72,6 +78,21 @@ public class FillingStationStudyCase extends AbstractStudyCase {
 				"interface_navigation_system");
 		});
 		
+		
+		scenario("s6", (agentBuilder)->{
+			agentBuilder.addContexts(
+				"protocol_on_board_computer_get_distante_to_empty", 
+				"storage",
+				"synthesized_voice");
+		});
+		
+		scenario("s7", (agentBuilder)->{
+			agentBuilder.addContexts(
+				"gps_capability", 
+				"protocol_on_board_computer_get_distante_to_empty",
+				"interface_navigation_system");
+		});
+
 	}
 	
 	protected void setupEnvironment(RepositoryBuilder repositoryBuilder){

@@ -1,10 +1,12 @@
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.jboss.weld.log.LoggerProducer;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
 
 import goalp.evaluation.ExperimentTimerImpl;
 import goalp.exputil.AbstractPlanningTestCase;
@@ -12,7 +14,6 @@ import goalp.model.ArtifactBuilder;
 import goalp.systems.DeploymentPlanningResult;
 import goalp.systems.RepositoryBuilder;
 import goalp.systems.SimpleDeploymentPlanner;
-import junit.framework.Assert;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({LoggerProducer.class, SimpleDeploymentPlanner.class, ExperimentTimerImpl.class})
@@ -231,5 +232,29 @@ public class FillingStationAdvisorTestSuite extends AbstractPlanningTestCase {
 				"interface_navigation_system");
 		});
 		assertTrue(result.isSuccessfull());
+	}
+	
+	@Test
+	public void scenario6() {
+		
+		DeploymentPlanningResult result = scenario("dash computer, connected, with gps and nav sys integration", (agentBuilder)->{
+			agentBuilder.addContexts(
+				"protocol_on_board_computer_get_distante_to_empty", 
+				"storage",
+				"synthesized_voice");
+		});
+		assertFalse(result.isSuccessfull());
+	}
+	
+	@Test
+	public void scenario7() {
+		
+		DeploymentPlanningResult result = scenario("dash computer, connected, with gps and nav sys integration", (agentBuilder)->{
+			agentBuilder.addContexts(
+				"gps_capability", 
+				"protocol_on_board_computer_get_distante_to_empty",
+				"interface_navigation_system");
+		});
+		assertFalse(result.isSuccessfull());
 	}
 }
