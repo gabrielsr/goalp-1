@@ -75,4 +75,48 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	<build>
+	  <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <testNGArtifactName>none:none</testNGArtifactName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>test-testng</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <junitArtifactName>none:none</junitArtifactName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+	    <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>exec-maven-plugin</artifactId>
+	        <executions>
+	            <execution>
+	                <goals>
+	                    <goal>java</goal>
+	                </goals>
+	            </execution>
+	        </executions>
+            <configuration>
+             	<mainClass>goalp.evaluation.fillingstation.EvaluationMain</mainClass>
+            </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
 </project>

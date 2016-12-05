@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import goalp.evaluation.Dataset;
 import goalp.evaluation.model.ExecResult;
 import goalp.model.DeploymentRequest;
 import goalp.model.DeploymentRequestBuilder;
@@ -33,6 +34,8 @@ public abstract class AbstractStudyCase {
 	
 	@Inject
 	WriteService write;
+
+	Dataset ds;
 	
 
 	public abstract void caseStudy();
@@ -47,7 +50,9 @@ public abstract class AbstractStudyCase {
 		planner = new SimpleDeploymentPlanner(repo.build());
 		timer.split("setup env");
 		//execute deployment planning for case study
+		ds = Dataset.init("test_case", "scenario", "time");
 		caseStudy();
+		ds.flush();
 	}
 	
 	public void scenario(String experimentName, Consumer<AgentBuilder> exec) {
@@ -71,14 +76,16 @@ public abstract class AbstractStudyCase {
 
 		DeploymentPlanningResult planningResult;
 		try {
+			timer.split("setup:" + experimentName);
 			planningResult = planner.doPlan(request, agent);
-			result.setResultPlan(planningResult);
+			Number responseResult = timer.split("execution:" + experimentName);
+			ds.log(experimentName, responseResult);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw new RuntimeException(e);
 		}
 		
-		
+		result.setResultPlan(planningResult);
 		Number responseResult = timer.split("execution:" + experimentName);
 
 		validateResult(result);
