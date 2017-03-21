@@ -30,14 +30,9 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 		}
 		
 		DeploymentPlanningResult result = new DeploymentPlanningResult();
-		try {
-			makePlan(agent, request.getGoals(), result);
-		}catch(Throwable e){
-			result.stop();
-			logger.error(e);
-			e.printStackTrace();
-			result.putFailure("Unespected Failure: " + e.toString() + "," + e.getMessage());
-		}
+
+		makePlan(agent, request.getGoals(), result);
+
 		if(!result.isSuccessfull()){
 			logger.debug("failures in the deployment planning");
 			logger.debug(result.getFailures());
@@ -123,7 +118,7 @@ public class SimpleDeploymentPlanner implements IDeploymentPlanner {
 				chosen = alternative;
 			}
 		}
-		return chosen;
+		return chosen; 
 	}
 	
 	private boolean checkContextConditions(Agent agent, Artifact artifact) {
