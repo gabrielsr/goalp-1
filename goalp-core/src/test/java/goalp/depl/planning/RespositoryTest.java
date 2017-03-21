@@ -20,12 +20,12 @@ public class RespositoryTest {
 	public void setUp() {
 		
 		repo = RepositoryBuilder.create()
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:greater:0.0.1")
 				.provides("br.unb.greet")
 				.build())
-			.addArtifact(
+			.add(
 				ArtifactBuilder.create()
 				.identification("br.unb:alarm:0.0.1")
 				.provides("br.unb.alarm")

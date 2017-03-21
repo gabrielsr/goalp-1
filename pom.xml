@@ -3,11 +3,13 @@
 
 	<groupId>br.unb.goalp</groupId>
 	<artifactId>goalp-parent</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.0.7</version>
 
 	<modules>
 		<module>goalp-core</module>
-		<module>evaluation</module>
+		<module>evaluation-commons</module>
+		<module>scalability-evaluation</module>
+		<module>filling-station-case-study</module>
 	</modules>
 
 	<name>goalp-parent</name>
@@ -16,20 +18,20 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bintray.subject>gabrielsr</bintray.subject>
+		<bintray.subject>lesunb</bintray.subject>
 		<bintray.repo>goalp</bintray.repo>
 		<bintray.package>goalp</bintray.package>
 	</properties>
 
 	<scm>
-		<connection>scm:git:https://github.com/gabrielsr/goalp.git</connection>
+		<connection>scm:git:https://github.com/lesunb/goalp.git</connection>
 		<developerConnection>scm:git:git@github.com:gabrielsr/goalp.git</developerConnection>
-		<url>https://github.com/gabrielsr/goalp</url>
+		<url>https://github.com/lesunb/goalp</url>
 		<tag>HEAD</tag>
 	</scm>
 
 	<build>
-	
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -45,6 +47,29 @@
 				<groupId>external.atlassian.jgitflow</groupId>
 				<artifactId>jgitflow-maven-plugin</artifactId>
 				<version>1.0-m5.1</version>
+			</plugin>
+
+			<!-- Coberture Report -->
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.2.0</version>
+				<configuration>
+					<repoToken>mE1jiIBd2rwLbiPz8Gv75KRUt26Hr7pC7</repoToken>
+				</configuration>
+			</plugin>
+			<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.6.201602180812</version>
+					<executions>
+							<execution>
+									<id>prepare-agent</id>
+									<goals>
+											<goal>prepare-agent</goal>
+									</goals>
+							</execution>
+					</executions>
 			</plugin>
 		</plugins>
 	</build>

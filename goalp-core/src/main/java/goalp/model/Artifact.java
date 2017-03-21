@@ -62,8 +62,8 @@ public class Artifact{
 
 	@Override
 	public String toString() {
-		return "Artifact [provide=" + provide + ", dependencies=" + dependencies + ", identification=" + identification
-				+ ", contextRequirement=" + contextRequirement + "]";
+		return "Artifact [identification=" +identification+ ", \n provide=" +  provide + ",\n dependencies=" + dependencies  
+				+ ", \n contextRequirement=" + contextRequirement + "]";
 	}
 
 }

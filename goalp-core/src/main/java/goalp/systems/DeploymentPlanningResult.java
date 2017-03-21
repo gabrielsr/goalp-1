@@ -1,7 +1,8 @@
 package goalp.systems;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Date;
+import java.util.Deque;
 import java.util.List;
 
 import goalp.model.Artifact;
@@ -10,7 +11,7 @@ public class DeploymentPlanningResult {
 
 	public DeploymentPlan plan;
 	
-	public List<String> failures;
+	public Deque<String> failures;
 	
 	/**
 	 * Time of clock took in planning in milisecons.
@@ -35,17 +36,21 @@ public class DeploymentPlanningResult {
 		}
 	}
 	
-	public List<String> getFailures(){
+	public Deque<String> getFailures(){
 		if(failures == null){
-			failures = new ArrayList<>();
+			failures = new ArrayDeque<>();;
 		}
 		return failures;
 	}
 	
 	public void putFailure(String failure){
-		 getFailures().add(failure);
+		 getFailures().push(failure);
 	}
 
+	public void putFailures(List<String> failures){
+		 getFailures().addAll(failures);
+	}
+	
 	public void incorporate(DeploymentPlan subPlan) {
 		getPlan().getSelectedArtifacts().addAll(subPlan.getSelectedArtifacts());
 	}

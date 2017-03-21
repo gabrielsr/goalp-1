@@ -21,7 +21,7 @@ public class RepositoryBuilder {
 		return built;
 	}
 
-	public RepositoryBuilder addArtifact(Artifact artifact) {
+	public RepositoryBuilder add(Artifact artifact) {
 		this.repository.addArtifact(artifact);
 		return this;
 	}
